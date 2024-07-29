@@ -4,7 +4,8 @@ from studentmgt.models import Student
 
 # Create your views here.
 def student_home(request):
-    return render(request, "studentmgt/student_home.html")
+    std=Student.objects.all()
+    return render(request, "studentmgt/student_home.html",{'std':std})
 
 def student_add(request):
     if request.method=='POST':
@@ -31,19 +32,21 @@ def student_add(request):
         s.phone=phone
         s.address=address
         s.save()
-        return redirect('/studentmgt/')
+        return redirect('/studentmgt')
     return render(request,"studentmgt/student_add.html",{})
 
-def delete_std(request,st_id):
+
+
+def student_delete(request,st_id):
     s=Student.objects.get(pk=st_id)
     s.delete()
-    return redirect("/std/home")
+    return redirect("/studentmgt")
 
-def update_std(request,st_id):
+def student_update(request,st_id):
     std=Student.objects.get(pk=st_id)
-    return render(request,"std/update_std.html",{'std':std})
+    return render(request,"studentmgt/student_update.html",{'std':std})
 
-def do_update_std(request,st_id):
+def student_do_update(request,st_id):
         st_id = request.POST.get("st_id")
         fname = request.POST.get("fname")
         lname = request.POST.get("lname")
@@ -65,4 +68,4 @@ def do_update_std(request,st_id):
         std.phone=phone
         std.address=address
         std.save()
-        return redirect("/std")
+        return redirect("/studentmgt")

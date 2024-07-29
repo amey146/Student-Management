@@ -6,7 +6,7 @@ Student Add
 
 {% block body %}
 <div class="card-body">
-    <form action="/" method="POST">
+    <form action="{% url 'student_add' %}" method="POST">
       {% csrf_token %}
         <div class="md-3">
         <label for="roll">Roll</label>
@@ -22,13 +22,13 @@ Student Add
         </div>
         <div class="md-3 my-3">
           <label for="dob">Date Of Birth</label>
-      <input name= "dob" type="date" id="dob" name="dob" class="ml-3">
+      <input name= "dob" type="date" id="dob" name="dob" class="ml-3" required>
         </div>
         <div class="md-3 my-2">
           <label for="gender">Gender Select</label>
-        <input type="radio" id="male" name="gender" value="MALE" class="ml-3">
+        <input type="radio" id="male" name="gender" value="MALE" class="ml-3" required>
         <label for="male ">Male</label>
-        <input type="radio" id="female" name="gender" value="FEMALE" class="ml-3">
+        <input type="radio" id="female" name="gender" value="FEMALE" class="ml-3" required>
         <label for="female">Female</label>
         </div>
         <div class="md-3">

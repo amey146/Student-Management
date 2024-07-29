@@ -6,7 +6,7 @@ Student Home
 
 {% block body %}
 <h1>Student Home</h1>
-<a class="nav-link" href="studentmgt/student_add">Add Student</a>
+<a class="nav-link" href="student_add">Add Student</a>
 <table class="table table-striped">
     <thead>
       <tr>
@@ -37,9 +37,8 @@ Student Home
         <td>{{s.address}}</td>
 
         <td>
-          <a href="/std/delete-std/{{s.id}} " class="btn btn-danger md-sm">Delete</a>
-          <a href="/std/update-std/{{s.id}} " class="btn btn-success md-sm">Update</a>
-    
+          <a href="/studentmgt/student_delete/{{s.st_id}}" class="btn btn-danger md-sm">Delete</a>
+          <a href="/studentmgt/student_update/{{s.st_id}}" class="btn btn-success md-sm">Update</a>
         </td>
       </tr>
       {% endfor %}
