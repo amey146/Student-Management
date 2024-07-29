@@ -1,2 +1,2 @@
 # Student Management 
- 
+This project aims to create an end-to-end data analytics solution for student result analysis using Python. It will assess various elements including gender distribution, the impact of parental education, and ethnic group distribution. Moreover, we will develop a dashboard to facilitate the analysis. The dashboard will help parents, teachers, and students identify and understand areas of weakness and help them to improve it. The project will also incorporate data visualization techniques to ensure the insights are easily interpretable and easier to take actions.
