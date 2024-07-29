@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Home
+{% endblock title %}
+
+{% block body %}
+<h1>Student Home</h1>
+<a class="nav-link" href="studentmgt/student_add">Add Student</a>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>SR NO</th>
+        <th>ROLL NO</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>DOB</th>
+        <th>GENDER</th>
+        <th>STUDENT EMAIL</th>
+        <th>PARENTS EMAIL</th>
+        <th>PHONE</th>
+        <th>ADDRESS</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%  for s in std %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{s.st_id}}</td>
+        <td>{{s.fname}}</td>
+        <td>{{s.lname}}</td>
+        <td>{{s.dob}}</td>
+        <td>{{s.gender}}</td>
+        <td>{{s.st_email}}</td>
+        <td>{{s.pr_email}}</td>
+        <td>{{s.phone}}</td>
+        <td>{{s.address}}</td>
+
+        <td>
+          <a href="/std/delete-std/{{s.id}} " class="btn btn-danger md-sm">Delete</a>
+          <a href="/std/update-std/{{s.id}} " class="btn btn-success md-sm">Update</a>
+    
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock body %}

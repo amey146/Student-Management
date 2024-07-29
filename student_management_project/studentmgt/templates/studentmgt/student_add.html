@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Add
+{% endblock title %}
+
+{% block body %}
+<div class="card-body">
+    <form action="/" method="POST">
+      {% csrf_token %}
+        <div class="md-3">
+        <label for="roll">Roll</label>
+        <input name="st_id"type="text" class="form-control" id="roll" placeholder="Enter Your Roll Id" required>
+        </div>
+        <div class="md-3">
+          <label for="fname">First Name</label>
+          <input name= "fname"type="text" class="form-control" id="fname" placeholder="Enter Your First Name" required >
+        </div>
+        <div class="md-3">
+          <label for="lname">Last Name</label>
+          <input name= "lname" type="text" class="form-control" id="lname" placeholder="Enter Your Last Name" required>
+        </div>
+        <div class="md-3 my-3">
+          <label for="dob">Date Of Birth</label>
+      <input name= "dob" type="date" id="dob" name="dob" class="ml-3">
+        </div>
+        <div class="md-3 my-2">
+          <label for="gender">Gender Select</label>
+        <input type="radio" id="male" name="gender" value="MALE" class="ml-3">
+        <label for="male ">Male</label>
+        <input type="radio" id="female" name="gender" value="FEMALE" class="ml-3">
+        <label for="female">Female</label>
+        </div>
+        <div class="md-3">
+          <label for="email">Student Email</label>
+          <input name= "st_email" type="email" class="form-control" id="email" placeholder="Enter Student's Email" required >
+        </div>
+        <div class="md-3">
+          <label for="email">Student's Parent Email</label>
+          <input name= "pr_email" type="email" class="form-control" id="pemail" placeholder="Enter Parent's Email" required >
+        </div>
+        <div class="md-3">
+          <label for="phone">Phone</label>
+         <input name="phone"type="number" class="form-control" id="phone" placeholder="Enter Phone Number" required >
+        </div>
+        <div class="md-3">
+          <label for="address">Address</label>
+         <textarea name="address" id="address" rows="5"  class="form-control" required></textarea >
+        </div>
+        <div class="container text-center my-2">
+          <button type="submit" class="btn btn-primary">Add Student</button>
+    </form>
+</div>
+{% endblock body %}

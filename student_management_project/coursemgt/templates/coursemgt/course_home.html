@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block linker %}<link rel="stylesheet" href="/static/css/course_home.css">{% endblock linker %}
+
+{% block title %}
+Course Mgt
+{% endblock title %}
+
+{% block body %}
+<h1>Course Management</h1>
+<a href="{% url 'course_add' %}">Add Course</a>
+<h2>Course List</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <div>
+                        <div class="container">
+                            <div class="row">
+                                {% for c in courses %}
+                                <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">{{ c.cname }}</h5>
+                                            <p class="card-text text-muted">
+                                                <strong>ID:</strong> {{ c.c_id }}<br>
+                                                <strong>Duration:</strong> {{ c.cduration }} hrs
+                                            </p>
+                                            <div class="d-flex justify-content-around">
+                                                <a href="/coursemgt/course_update/{{ c.c_id }}" class="btn btn-warning">Edit</a>
+                                                <a href="/coursemgt/course_delete/{{ c.c_id }}" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
