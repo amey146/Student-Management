@@ -3,7 +3,82 @@
 {% block title %}
 Home Page
 {% endblock title %}
-
+{% block linker %}
+<style>
+    .card-custom {
+      transition: transform 0.2s;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-custom:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card-body {
+      padding: 2rem;
+    }
+    .btn-custom {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      transition: background-color 0.2s;
+    }
+    .btn-custom:hover {
+      background-color: #0056b3;
+      color: #fff;
+    }
+    .container-custom {
+      padding-top: 2rem;
+    }
+  </style>
+{% endblock linker %}
 {% block body %}
 <h1>Home Page</h1>
+  <div class="container container-custom">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card card-custom text-center">
+          <div class="card-body">
+            <h5 class="card-title">Attendance</h5>
+            <a href="{% url 'attendance_home' %}" class="btn btn-custom">Go to Attendance</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card card-custom text-center">
+          <div class="card-body">
+            <h5 class="card-title">Course Management</h5>
+            <a href="{% url 'course_home' %}" class="btn btn-custom">Go to Course Management</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card card-custom text-center">
+          <div class="card-body">
+            <h5 class="card-title">Quiz Management</h5>
+            <a href="{% url 'quiz_home' %}" class="btn btn-custom">Go to Quiz Management</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card card-custom text-center">
+          <div class="card-body">
+            <h5 class="card-title">Student Management</h5>
+            <a href="{% url 'student_home' %}" class="btn btn-custom">Go to Student Management</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card card-custom text-center">
+          <div class="card-body">
+            <h5 class="card-title">Home Dashboard</h5>
+            <a href="{% url 'homedash_home' %}" class="btn btn-custom">Go to Home Dashboard</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock body %}

@@ -6,4 +6,30 @@ Attendance Mgt
 
 {% block body %}
 <h1>Attendance Mgt</h1>
+<form method="POST" action="{% url 'attendance_add' %}">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.st_id }}</td>
+                <td>{{ student.name }}</td>
+                <td>
+                    <input type="radio" name="status_{{ student.st_id }}" value="P"> Present
+                    <input type="radio" name="status_{{ student.st_id }}" value="A"> Absent
+                    <input type="hidden" name="student_id_{{ student.st_id }}" value="{{ student.id }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Submit Attendance</button>
+</form>
 {% endblock body %}

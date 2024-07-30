@@ -23,7 +23,7 @@ def student_add(request):
         
         # Check if the student with the given st_id already exists
         if Student.objects.filter(st_id=st_id).exists():
-            error_message = 'A student with this Roll ID already exists.'
+            error_message = 'Error! A student with this Roll ID already exists.'
             return render(request, "studentmgt/student_add.html", {'error_message': error_message})
 
         s=Student()

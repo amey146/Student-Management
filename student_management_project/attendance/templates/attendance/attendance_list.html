@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Today
+{% endblock title %}
+
+{% block body %}
+<h1>Attendance Today</h1>
+
+<h1>Today's Attendance</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendance_list %}
+            <tr>
+                <td>{{ attendance.st_id.st_id }}</td>
+                <td>{{ attendance.st_id.fname }}</td>
+                <td>{{ attendance.st_id.lname }}</td>
+                <td>{{ attendance.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+{% endblock body %}
