@@ -5,6 +5,11 @@ Student Add
 {% endblock title %}
 
 {% block body %}
+{% if error_message %}
+        <script type="text/javascript">
+            alert("{{ error_message }}");
+        </script>
+    {% endif %}
 <div class="card-body">
     <form action="{% url 'student_add' %}" method="POST">
       {% csrf_token %}

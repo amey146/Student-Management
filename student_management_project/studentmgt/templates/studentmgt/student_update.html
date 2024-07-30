@@ -11,8 +11,8 @@ Student Update
     <form action="/studentmgt/student_do_update/{{std.st_id}}" method="POST">
       {% csrf_token %}
         <div class="md-3">
-        <label for="roll">Roll</label>
-        <input name="st_id"type="text" class="form-control" id="roll" placeholder="Enter Your Roll Id" required value={{std.st_id}}>
+        <label for="roll"><strong>Roll Number: {{std.st_id}}</strong></label>
+        <input name="st_id"type="text" class="form-control" id="roll" placeholder="Enter Your Roll Id" hidden="true" required value={{std.st_id}}>
         </div>
         <div class="md-3">
           <label for="fname">First Name</label>

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render, HttpResponse
 
 from studentmgt.models import Student
+from django.contrib import messages
 
 # Create your views here.
 def student_home(request):
@@ -19,8 +20,12 @@ def student_add(request):
         pr_email=request.POST.get("pr_email")
         phone = request.POST.get("phone")
         address = request.POST.get("address")
+        
+        # Check if the student with the given st_id already exists
+        if Student.objects.filter(st_id=st_id).exists():
+            error_message = 'A student with this Roll ID already exists.'
+            return render(request, "studentmgt/student_add.html", {'error_message': error_message})
 
-        #create an object for model class
         s=Student()
         s.st_id=st_id
         s.fname=fname
