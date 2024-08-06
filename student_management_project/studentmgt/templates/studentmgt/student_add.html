@@ -6,54 +6,63 @@ Student Add
 
 {% block body %}
 {% if error_message %}
-        <script type="text/javascript">
-            alert("{{ error_message }}");
-        </script>
-    {% endif %}
+<script type="text/javascript">
+    alert("{{ error_message }}");
+</script>
+{% endif %}
 <div class="card-body">
     <form action="{% url 'student_add' %}" method="POST">
-      {% csrf_token %}
+        {% csrf_token %}
         <div class="md-3">
-        <label for="roll">Roll</label>
-        <input name="st_id"type="text" class="form-control" id="roll" placeholder="Enter Your Roll Id" required>
+            <label for="roll">Roll</label>
+            <input name="st_id" type="text" class="form-control" id="roll" placeholder="Enter Your Roll Id" required>
         </div>
         <div class="md-3">
-          <label for="fname">First Name</label>
-          <input name= "fname"type="text" class="form-control" id="fname" placeholder="Enter Your First Name" required >
+            <label for="fname">First Name</label>
+            <input name="fname" type="text" class="form-control" id="fname" placeholder="Enter Your First Name" required>
         </div>
         <div class="md-3">
-          <label for="lname">Last Name</label>
-          <input name= "lname" type="text" class="form-control" id="lname" placeholder="Enter Your Last Name" required>
+            <label for="lname">Last Name</label>
+            <input name="lname" type="text" class="form-control" id="lname" placeholder="Enter Your Last Name" required>
         </div>
         <div class="md-3 my-3">
-          <label for="dob">Date Of Birth</label>
-      <input name= "dob" type="date" id="dob" name="dob" class="ml-3" required>
+            <label for="dob">Date Of Birth</label>
+            <input name="dob" type="date" id="dob" class="ml-3" required>
         </div>
         <div class="md-3 my-2">
-          <label for="gender">Gender Select</label>
-        <input type="radio" id="male" name="gender" value="MALE" class="ml-3" required>
-        <label for="male ">Male</label>
-        <input type="radio" id="female" name="gender" value="FEMALE" class="ml-3" required>
-        <label for="female">Female</label>
+            <label for="gender">Gender Select</label>
+            <input type="radio" id="male" name="gender" value="M" class="ml-3" required>
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="F" class="ml-3" required>
+            <label for="female">Female</label>
         </div>
         <div class="md-3">
-          <label for="email">Student Email</label>
-          <input name= "st_email" type="email" class="form-control" id="email" placeholder="Enter Student's Email" required >
+            <label for="email">Student Email</label>
+            <input name="st_email" type="email" class="form-control" id="email" placeholder="Enter Student's Email" required>
         </div>
         <div class="md-3">
-          <label for="email">Student's Parent Email</label>
-          <input name= "pr_email" type="email" class="form-control" id="pemail" placeholder="Enter Parent's Email" required >
+            <label for="pemail">Student's Parent Email</label>
+            <input name="pr_email" type="email" class="form-control" id="pemail" placeholder="Enter Parent's Email" required>
         </div>
         <div class="md-3">
-          <label for="phone">Phone</label>
-         <input name="phone"type="number" class="form-control" id="phone" placeholder="Enter Phone Number" required >
+            <label for="phone">Phone</label>
+            <input name="phone" type="number" class="form-control" id="phone" placeholder="Enter Phone Number" required>
         </div>
         <div class="md-3">
-          <label for="address">Address</label>
-         <textarea name="address" id="address" rows="5"  class="form-control" required></textarea >
+            <label for="address">Address</label>
+            <textarea name="address" id="address" rows="5" class="form-control" required></textarea>
+        </div>
+        <div class="md-3">
+            <label for="courses">Courses</label>
+            <select name="courses" id="courses" class="form-control" multiple required>
+                {% for course in courses %}
+                <option value="{{ course.c_id }}">{{ course.cname }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="container text-center my-2">
-          <button type="submit" class="btn btn-primary">Add Student</button>
+            <button type="submit" class="btn btn-primary">Add Student</button>
+        </div>
     </form>
 </div>
 {% endblock body %}

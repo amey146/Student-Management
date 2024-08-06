@@ -20,29 +20,34 @@ Student Home
         <th>PARENTS EMAIL</th>
         <th>PHONE</th>
         <th>ADDRESS</th>
+        <th>COURSES</th>
+        <th>ACTIONS</th>
       </tr>
     </thead>
     <tbody>
-      {%  for s in std %}
+      {% for s in std %}
       <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{s.st_id}}</td>
-        <td>{{s.fname}}</td>
-        <td>{{s.lname}}</td>
-        <td>{{s.dob}}</td>
-        <td>{{s.gender}}</td>
-        <td>{{s.st_email}}</td>
-        <td>{{s.pr_email}}</td>
-        <td>{{s.phone}}</td>
-        <td>{{s.address}}</td>
-
+        <td>{{ forloop.counter }}</td>
+        <td>{{ s.st_id }}</td>
+        <td>{{ s.fname }}</td>
+        <td>{{ s.lname }}</td>
+        <td>{{ s.dob }}</td>
+        <td>{{ s.gender }}</td>
+        <td>{{ s.st_email }}</td>
+        <td>{{ s.pr_email }}</td>
+        <td>{{ s.phone }}</td>
+        <td>{{ s.address }}</td>
         <td>
-          <a href="/studentmgt/student_delete/{{s.st_id}}" class="btn btn-danger md-sm">Delete</a>
-          <a href="/studentmgt/student_update/{{s.st_id}}" class="btn btn-success md-sm">Update</a>
+          {% for course in s.courses.all %}
+            {{ course.cname }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </td>
+        <td>
+          <a href="/studentmgt/student_delete/{{ s.st_id }}" class="btn btn-danger md-sm">Delete</a>
+          <a href="/studentmgt/student_update/{{ s.st_id }}" class="btn btn-success md-sm">Update</a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-
 {% endblock body %}
