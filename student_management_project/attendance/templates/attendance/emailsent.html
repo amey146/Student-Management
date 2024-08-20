@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block linker %}
+<style>
+    .container {
+        text-align: center;
+    }
+    .container img {
+        height: 400px;
+    }
+    .container h1 {
+        margin-top: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+</style>
+{% endblock linker %}
+
+
+{% block title %}
+Email Sent Successfully
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <img src="/static/success_tick.gif" alt="Success">
+    <h1>Emails Sent</h1>
+</div>
+
+{% endblock body %}

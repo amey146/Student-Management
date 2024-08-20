@@ -5,28 +5,78 @@ Attendance Today
 {% endblock title %}
 
 {% block body %}
-<h1>Attendance Today</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Attendance Today</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Student ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for attendance in attendance_list %}
-        <tr>
-            <td>{{ attendance.st_id.st_id }}</td>
-            <td>{{ attendance.st_id.fname }}</td>
-            <td>{{ attendance.st_id.lname }}</td>
-            <td>{{ attendance.get_status_display }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover shadow-sm">
+            <thead class="thead-blue">
+                <tr>
+                    <th>Student ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attendance in attendance_list %}
+                <tr>
+                    <td>{{ attendance.st_id.st_id }}</td>
+                    <td>{{ attendance.st_id.fname }}</td>
+                    <td>{{ attendance.st_id.lname }}</td>
+                    <td>{{ attendance.get_status_display }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<style>
+  /* Heading Style */
+  .container h1 {
+      color: #003366; /* Dark blue color */
+      margin-bottom: 1.5rem; /* Spacing below the heading */
+  }
+
+  /* Table Styling */
+  .thead-blue {
+      background-color: #003366; /* Dark blue header */
+      color: #ffffff; /* White text color */
+  }
+
+  .table {
+      width: 100%; /* Full width of the container */
+      border-collapse: collapse; /* Remove double borders */
+      font-size: 1rem; /* Default font size */
+      transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+  }
+
+  .table th, .table td {
+      padding: 12px; /* Padding for cells */
+      text-align: left; /* Left-align text */
+      border: 1px solid #dee2e6; /* Light gray border */
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+      background-color: #f9f9f9; /* Light gray background for odd rows */
+  }
+
+  .table-hover tbody tr {
+      transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+  }
+
+  .table-hover tbody tr:hover {
+      background-color: #e3f2fd; /* Light blue background on row hover */
+      transform: scale(1.02); /* Slightly enlarge row on hover */
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      .table-responsive {
+          overflow-x: auto; /* Horizontal scroll on smaller screens */
+      }
+  }
+</style>
 
 {% endblock body %}
