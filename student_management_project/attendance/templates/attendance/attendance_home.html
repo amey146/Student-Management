@@ -2,12 +2,6 @@
 
 {% block linker %}
 <style>
-    /* Customizing the table header background color */
-    .table thead th {
-        background-color: #0b2e59; /* Dark blue background color */
-        color: #ffffff; /* White text color for contrast */
-        font-weight: bold;
-    }
 </style>
 {% endblock linker %}
 
@@ -16,56 +10,9 @@ Attendance Management
 {% endblock title %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Attendance Management</h1>
-
-    <!-- Course Selection Form -->
-    <form method="GET" action="{% url 'attendance_home' %}" class="form-inline justify-content-center mb-4">
-        <label for="course" class="mr-2">Select Course:</label>
-        <select name="course" id="course" class="form-control mr-2" onchange="this.form.submit()">
-            <option value="">All Courses</option>
-            {% for course in courses %}
-            <option value="{{ course.c_id }}" {% if selected_course == course.c_id %}selected{% endif %}>{{ course.cname }}</option>
-            {% endfor %}
-        </select>
-    </form>
-
-    <!-- Attendance Form -->
-    <form method="POST" action="{% url 'attendance_add' %}">
-        {% csrf_token %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                    <tr>
-                        <td>{{ student.st_id }}</td>
-                        <td>{{ student.fname }} {{ student.lname }}</td>
-                        <td>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="P" id="present_{{ student.st_id }}">
-                                <label class="form-check-label" for="present_{{ student.st_id }}">Present</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="A" id="absent_{{ student.st_id }}">
-                                <label class="form-check-label" for="absent_{{ student.st_id }}">Absent</label>
-                            </div>
-                            <input type="hidden" name="student_id_{{ student.st_id }}" value="{{ student.st_id }}">
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Submit Attendance</button>
-        </div>
-    </form>
-</div>
+  <h1>Attendance Management</h1>
+  <ul>
+    <li><a href="{% url 'attendance_add' %}">Add Attendance</a></li>
+    <li><a href="{% url 'attendance_list' %}">Attendance List</a></li>
+  </ul>
 {% endblock body %}
