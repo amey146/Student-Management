@@ -69,8 +69,15 @@ def attendance_add_action(request):
 # Function to save attendance to CSV
 def save_attendance_to_csv(attendance_data):
     new_file_start = get_week_start()
+    # Specify the subdirectory 'attendance'
+    attendance_dir = os.path.join(settings.MEDIA_ROOT, 'attendance')
+    
+    # Ensure the directory exists
+    if not os.path.exists(attendance_dir):
+        os.makedirs(attendance_dir)
+
     filename = f'attendance_week_{new_file_start}.csv'
-    filepath = os.path.join(settings.MEDIA_ROOT, filename)
+    filepath = os.path.join(attendance_dir, filename)
     
     # Create the CSV if it doesn't exist, or append if it does
     file_exists = os.path.isfile(filepath)
@@ -88,11 +95,9 @@ def save_attendance_to_csv(attendance_data):
 
 
 
-
-
-
 def attendance_list(request):
-    media_root = os.path.join(settings.MEDIA_ROOT, '')
+    # Update the path to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     csv_files = []
 
     try:
@@ -110,9 +115,9 @@ def attendance_list(request):
                 else:
                     print(f"Not a CSV file: {file}")
         else:
-            print("Media root not found")
+            print("Attendance folder not found")
     except FileNotFoundError:
-        print("Media root not found")
+        print("Attendance folder not found")
 
     # Generate download URLs (assuming you have a download view)
     file_urls = [reverse('download_csv', kwargs={'file_name': file}) for file in csv_files]
@@ -121,8 +126,10 @@ def attendance_list(request):
     context = {'zipped_files': zipped_files}
     return render(request, 'attendance/attendance_list.html', context)
 
+
 def download_csv(request, file_name):
-    media_root = settings.MEDIA_ROOT
+    # Update to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     file_path = os.path.join(media_root, file_name)
     try:
         with open(file_path, 'rb') as f:
@@ -134,8 +141,10 @@ def download_csv(request, file_name):
     except PermissionError:
         return HttpResponse('Permission denied', status=403)
 
+
 def delete_csv(request, file_name):
-    media_root = settings.MEDIA_ROOT
+    # Update to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     file_path = os.path.join(media_root, file_name)
     try:
         os.remove(file_path)
