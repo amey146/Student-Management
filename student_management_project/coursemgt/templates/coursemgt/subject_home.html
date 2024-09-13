@@ -5,40 +5,44 @@
 {% endblock linker %}
 
 {% block title %}
-Course Management
+Subject Management
 {% endblock title %}
 
 {% block body %}
-<h1 class="text-center mb-4">Course Management</h1>
+<h1 class="text-center mb-4">Subject Management</h1>
 
 <div class="container">
     <div class="mb-4 text-center">
-        <a href="{% url 'course_add' %}" class="btn btn-primary btn-lg">
-            <i class="fas fa-plus"></i> Add Course
+        <a href="{% url 'subject_add' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Add Subject
         </a>
     </div>
-    <div class="mb-4 text-center">
-        <a href="{% url 'subject_home' %}" class="btn btn-warning btn-lg">
-            <i class="fa-solid fa-list-check"></i> Manage Subjects Here
-        </a>
-    </div>
-    <h2 class="text-center mb-4">Course List</h2>
+    <h2 class="text-center mb-4">Subject List</h2>
 
     <div class="row">
-        {% for c in courses %}
+        {% for s in subjects %}
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body" style="border-top: 5px solid grey;">
-                    <h5 class="card-title text-center">{{ c.cname }}</h5>
+                    <h5 class="card-title text-center">{{ s.sbname }}</h5>
                     <p class="card-text text-muted">
-                        <strong>ID:</strong> {{ c.c_id }}<br>
-                        <strong>Duration:</strong> {{ c.cduration }} hrs
+                        <strong>ID:</strong> {{ s.sb_id }}<br>
+                        <strong>Courses:</strong> 
+                        {% if s.courses.all %}
+                            <ul>
+                                {% for course in s.courses.all %}
+                                    <li>{{ course.cname }}</li> 
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            No courses assigned.
+                        {% endif %}
                     </p>
                     <div class="d-flex justify-content-around">
-                        <a href="/coursemgt/course_update/{{ c.c_id }}" class="btn btn-warning">
+                        <a href="/coursemgt/subject_update/{{ s.sb_id }}" class="btn btn-warning">
                             <i class="fas fa-edit"></i> Edit
                         </a>
-                        <a href="/coursemgt/course_delete/{{ c.c_id }}" class="btn btn-danger">
+                        <a href="/coursemgt/subject_delete/{{ s.sb_id }}" class="btn btn-danger">
                             <i class="fas fa-trash-alt"></i> Delete
                         </a>
                     </div>

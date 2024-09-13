@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Subject
+{% endblock title %}
+
+{% block body %}
+<h1 class="text-center mb-4">Add New Subject</h1>
+    <form action="{% url 'subject_add' %}" method="POST" class="form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="sb_id" class="form-label">Subject ID</label>
+            <input type="text" name="sb_id" id="sb_id" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="sbname" class="form-label">Subject Name</label>
+            <input type="text" name="sbname" id="sbname" class="form-control">
+        </div>  
+        <div class="form-group mb-3">
+            <label for="courses"><i class="fas fa-book"></i> Courses</label>
+            <select name="courses" id="courses" class="form-control border-primary" multiple required>
+                {% for course in courses %}
+                <option value="{{ course.c_id }}">{{ course.cname }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+{% endblock body %}

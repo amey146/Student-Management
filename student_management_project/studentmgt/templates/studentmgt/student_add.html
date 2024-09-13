@@ -65,7 +65,7 @@ Student Add
                         </div>
                         <div class="form-group mb-3">
                             <label for="courses"><i class="fas fa-book"></i> Courses</label>
-                            <select name="courses" id="courses" class="form-control border-primary" multiple required>
+                            <select name="courses" id="courses" class="form-control border-primary" required>
                                 {% for course in courses %}
                                 <option value="{{ course.c_id }}">{{ course.cname }}</option>
                                 {% endfor %}
