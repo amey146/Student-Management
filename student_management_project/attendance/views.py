@@ -99,7 +99,6 @@ def attendance_list(request):
     # Update the path to include 'attendance' subdirectory
     media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     csv_files = []
-
     try:
         if os.path.exists(media_root):
             for file in os.listdir(media_root):
@@ -120,8 +119,8 @@ def attendance_list(request):
         print("Attendance folder not found")
 
     # Generate download URLs (assuming you have a download view)
-    file_urls = [reverse('download_csv', kwargs={'file_name': file}) for file in csv_files]
-    delete_urls = [reverse('delete_csv', kwargs={'file_name': file}) for file in csv_files]
+    file_urls = [reverse('attendance_download_csv', kwargs={'file_name': file}) for file in csv_files]
+    delete_urls = [reverse('attendance_delete_csv', kwargs={'file_name': file}) for file in csv_files]
     zipped_files = list(zip(csv_files, file_urls, delete_urls))
     context = {'zipped_files': zipped_files}
     return render(request, 'attendance/attendance_list.html', context)
@@ -131,6 +130,8 @@ def download_csv(request, file_name):
     # Update to include 'attendance' subdirectory
     media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     file_path = os.path.join(media_root, file_name)
+    print(media_root)
+    print(file_path)
     try:
         with open(file_path, 'rb') as f:
             response = HttpResponse(f.read(), content_type='application/octet-stream')

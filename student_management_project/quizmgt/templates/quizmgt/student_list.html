@@ -28,7 +28,7 @@ Quiz
 <form action="{% url 'quiz_submit' sbname%}" method="POST" class="form">
     {% csrf_token %}
     <h2>Total Marks:</h2>
-<input type="number" name="total" placeholder="Total Marks">
+<input type="number" name="total" placeholder="Total Marks" required>
 <div class="student-list">
     <!-- Loop over the students -->
     {% for student in students %}
@@ -36,7 +36,7 @@ Quiz
         <!-- Display student full name -->
         <span>{{ student.fname }} {{ student.lname }}</span>
         <!-- Input box for entering scored marks -->
-        <input type="number" name="scoredmarks_{{ student.st_id }}">
+        <input type="number" name="scoredmarks_{{ student.st_id }}" required>
     </div>
     <hr>
     {% endfor %}

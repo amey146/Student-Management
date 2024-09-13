@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import redirect, render, HttpResponse
 
 from coursemgt.models import Course, Subject
 from studentmgt.models import Student
@@ -8,6 +8,7 @@ import os
 from django.core.mail import send_mail
 from django.conf import settings
 import csv
+from django.urls import reverse
 
 # Create your views here.
 def quiz_home(request):
@@ -90,6 +91,10 @@ def save_scores_to_csv(quiz_data, sbname):
         for record in quiz_data:
             writer.writerow(record)
 
+# def send_quiz_email(request, total, sbname):
+#     return render(request, 'attendance/emailsent.html')
+
+# Below Code works but disabled for testing
 def send_quiz_email(request, total, sbname):
     today = date.today()
     formatted_date = today.strftime("%d-%m-%Y")
@@ -139,3 +144,62 @@ def get_week_start():
     today = timezone.now().date()
     start_of_week = today - timedelta(days=today.weekday())
     return start_of_week
+
+
+def quiz_list(request):
+    # Update the path to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
+    csv_files = []
+
+    try:
+        if os.path.exists(media_root):
+            for file in os.listdir(media_root):
+                if file.endswith('.csv'):
+                    # Validate the file as a CSV
+                    try:
+                        with open(os.path.join(media_root, file), 'r') as f:
+                            reader = csv.reader(f)
+                            next(reader)  # Skip header row
+                            csv_files.append(file)
+                    except csv.Error:
+                        print(f"Invalid CSV file: {file}")
+                else:
+                    print(f"Not a CSV file: {file}")
+        else:
+            print("Quiz folder not found")
+    except FileNotFoundError:
+        print("Quiz folder not found")
+
+    # Generate download URLs (assuming you have a download view)
+    file_urls = [reverse('download_csv', kwargs={'file_name': file}) for file in csv_files]
+    delete_urls = [reverse('delete_csv', kwargs={'file_name': file}) for file in csv_files]
+    zipped_files = list(zip(csv_files, file_urls, delete_urls))
+    context = {'zipped_files': zipped_files}
+    return render(request, 'quizmgt/quiz_list.html', context)
+
+def download_csv(request, file_name):
+    # Update to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
+    file_path = os.path.join(media_root, file_name)
+    try:
+        with open(file_path, 'rb') as f:
+            response = HttpResponse(f.read(), content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+            return response
+    except FileNotFoundError:
+        return HttpResponse('File not found', status=404)
+    except PermissionError:
+        return HttpResponse('Permission denied', status=403)
+
+
+def delete_csv(request, file_name):
+    # Update to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
+    file_path = os.path.join(media_root, file_name)
+    try:
+        os.remove(file_path)
+        return redirect('quiz_list')  # Redirect to the list view after deletion
+    except FileNotFoundError:
+        return HttpResponse('File not found', status=404)
+    except PermissionError:
+        return HttpResponse('Permission denied', status=403)
