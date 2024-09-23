@@ -12,6 +12,7 @@ class Student(models.Model):
     st_email = models.EmailField()
     pr_email = models.EmailField()
     phone = models.CharField(max_length=20)
+    pr_phone = models.CharField(max_length=20)
     address = models.TextField()
     courses = models.ManyToManyField(Course, related_name='students')
 

@@ -21,6 +21,7 @@ def student_add(request):
         st_email = request.POST.get("st_email")
         pr_email = request.POST.get("pr_email")
         phone = request.POST.get("phone")
+        pr_phone = request.POST.get("pr_phone")
         address = request.POST.get("address")
         course_ids = request.POST.getlist("courses")
 
@@ -32,7 +33,7 @@ def student_add(request):
 
         # Create and save the student
         s = Student(st_id=st_id, fname=fname, lname=lname, dob=dob, gender=gender,
-                    st_email=st_email, pr_email=pr_email, phone=phone, address=address)
+                    st_email=st_email, pr_email=pr_email, phone=phone, pr_phone=pr_phone ,address=address)
         s.save()
 
         # Assign selected courses to the student

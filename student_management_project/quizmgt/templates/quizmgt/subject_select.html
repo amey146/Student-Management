@@ -5,23 +5,111 @@ Quiz Mgt
 {% endblock title %}
 
 {% block body %}
-<h1>Quiz Mgt</h1>
+<div class="quiz-mgt-container">
+    <h1 class="text-center mb-4">Quiz Management</h1>
 
-    <label for="cid">Course ID: </label>
-    <h3>{{c.c_id}}</h3>
-    <label for="cname">Course Name: </label>
-    <h3>{{c.cname}}</h3>
-    <br>
-    <h5>Select a subject</h5>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Course Details</h5>
+            <p><strong>Course ID:</strong> {{ c.c_id }}</p>
+            <p><strong>Course Name:</strong> {{ c.cname }}</p>
+        </div>
+    </div>
+
+    <h5 class="text-center mb-4">Select a Subject</h5>
     <div class="list-group">
         {% for s in subjects %}
-        <div class="d-flex justify-content-between align-items-center mb-3 course-list-item">
-            <input type="text" name="sb_id" id="sb_id" value="{{s.sb_id}}" hidden>
-            <span>{{s}}</span>
-            <a href="/quizmgt/student_list/{{ c.c_id }}/{{ s.sbname}}" class="next-btn">
+        <div class="course-list-item">
+            <input type="text" name="sb_id" id="sb_id" value="{{ s.sb_id }}" hidden>
+            <span>{{ s.sbname }}</span>
+            <a href="/quizmgt/student_list/{{ c.c_id }}/{{ s.sb_id }}" class="next-btn">
                 Next <i class="fa-solid fa-chevron-right"></i>
             </a>
         </div>
         {% endfor %}
     </div>
-    {% endblock body %}
+</div>
+{% endblock body %}
+
+{% block linker %}
+<style>
+    /* Container styling specific to Quiz Management page */
+    .quiz-mgt-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    /* Header styling */
+    .quiz-mgt-container h1 {
+        font-size: 2.5rem;
+        color: #003366; /* Dark blue */
+    }
+
+    .quiz-mgt-container h5 {
+        color: #0056b3; /* Medium blue */
+    }
+
+    /* Card styling */
+    .quiz-mgt-container .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        border: 1px solid #e0e0e0; /* Light gray border */
+    }
+
+    .quiz-mgt-container .card-body {
+        padding: 20px;
+        background-color: #f9f9f9; /* Light gray background */
+    }
+
+    .quiz-mgt-container .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #003366; /* Dark blue */
+    }
+
+    /* List item styling */
+    .quiz-mgt-container .course-list-item {
+        padding: 15px;
+        background: #ffffff; /* White background */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .quiz-mgt-container .course-list-item:hover {
+        background-color: #e6f7ff; /* Light blue on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Button styling */
+    .quiz-mgt-container .next-btn {
+        font-size: 1rem;
+        color: #ffffff;
+        text-decoration: none;
+        border: 2px solid #007bff; /* Blue border */
+        border-radius: 5px;
+        padding: 8px 16px;
+        background-color: #007bff; /* Blue background */
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .quiz-mgt-container .next-btn i {
+        margin-left: 5px;
+    }
+
+    .quiz-mgt-container .next-btn:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        border-color: #0056b3;
+        color: #ffffff;
+        text-decoration: none;
+    }
+</style>
+{% endblock linker %}

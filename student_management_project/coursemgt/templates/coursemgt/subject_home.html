@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block linker %}
-<link rel="stylesheet" href="/static/css/course_home.css">
+<link rel="stylesheet" href="/static/css/subject_management.css">
 {% endblock linker %}
 
 {% block title %}
@@ -22,16 +22,16 @@ Subject Management
     <div class="row">
         {% for s in subjects %}
         <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-body" style="border-top: 5px solid grey;">
+            <div class="card shadow-lg border-primary">
+                <div class="card-body">
                     <h5 class="card-title text-center">{{ s.sbname }}</h5>
                     <p class="card-text text-muted">
                         <strong>ID:</strong> {{ s.sb_id }}<br>
-                        <strong>Courses:</strong> 
+                        <strong>Courses:</strong>
                         {% if s.courses.all %}
                             <ul>
                                 {% for course in s.courses.all %}
-                                    <li>{{ course.cname }}</li> 
+                                    <li>{{ course.cname }}</li>
                                 {% endfor %}
                             </ul>
                         {% else %}
@@ -39,7 +39,7 @@ Subject Management
                         {% endif %}
                     </p>
                     <div class="d-flex justify-content-around">
-                        <a href="/coursemgt/subject_update/{{ s.sb_id }}" class="btn btn-warning">
+                        <a href="/coursemgt/subject_update/{{ s.sb_id }}" class="btn btn-info">
                             <i class="fas fa-edit"></i> Edit
                         </a>
                         <a href="/coursemgt/subject_delete/{{ s.sb_id }}" class="btn btn-danger">
@@ -54,6 +54,11 @@ Subject Management
 </div>
 
 <style>
+    /* Global styling */
+    body {
+        font-family: 'Arial', sans-serif; /* Arial font family */
+    }
+
     /* Page styling */
     .text-center {
         text-align: center; /* Center align text */
@@ -65,31 +70,31 @@ Subject Management
 
     /* Button styles */
     .btn-primary {
-        background-color: #0496ff; /* Button background color */
-        border-color: #0496ff; /* Button border color */
-        color: white; /* Button text color */
+        background-color: #007bff; /* Blue background */
+        border-color: #007bff; /* Blue border */
+        color: white; /* White text color */
     }
 
     .btn-primary:hover {
-        background-color: #e07b39; /* Darker orange on hover */
-        border-color: #e07b39; /* Darker orange border on hover */
+        background-color: #0056b3; /* Darker blue on hover */
+        border-color: #004080; /* Darker blue border on hover */
     }
 
-    .btn-warning {
-        background-color: #ffc107; /* Warning button color */
-        border-color: #ffc107; /* Warning button border color */
-        color: black; /* Warning button text color */
+    .btn-info {
+        background-color: #17a2b8; /* Teal background */
+        border-color: #17a2b8; /* Teal border */
+        color: white; /* White text color */
     }
 
-    .btn-warning:hover {
-        background-color: #e0a800; /* Darker yellow on hover */
-        border-color: #d39e00; /* Darker yellow border on hover */
+    .btn-info:hover {
+        background-color: #138496; /* Darker teal on hover */
+        border-color: #117a8b; /* Darker teal border on hover */
     }
 
     .btn-danger {
-        background-color: #dc3545; /* Danger button color */
-        border-color: #dc3545; /* Danger button border color */
-        color: white; /* Danger button text color */
+        background-color: #dc3545; /* Red background */
+        border-color: #dc3545; /* Red border */
+        color: white; /* White text color */
     }
 
     .btn-danger:hover {
@@ -99,22 +104,31 @@ Subject Management
 
     /* Card styling */
     .card {
-        border-radius: 0.375rem; /* Rounded corners */
+        border-radius: 0.5rem; /* Rounded corners */
         overflow: hidden; /* Hide overflow */
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Card shadow */
+        background-color: #f8f9fa; /* Light background color */
+        border: 1px solid #dee2e6; /* Light border color */
+        transition: transform 0.3s, box-shadow 0.3s; /* Animation */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Lift effect */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Enhanced shadow */
     }
 
     .card-body {
-        padding: 1.25rem; /* Padding inside card body */
+        padding: 1.5rem; /* Padding inside card body */
     }
 
     .card-title {
-        font-size: 1.25rem; /* Font size for card title */
+        font-size: 1.5rem; /* Larger font size for card title */
         margin-bottom: 1rem; /* Margin bottom for card title */
+        color: #000000; /* Black color for title */
     }
 
     .card-text {
         font-size: 1rem; /* Font size for card text */
+        color: #6c757d; /* Gray color for text */
     }
 
     /* Responsive adjustments */

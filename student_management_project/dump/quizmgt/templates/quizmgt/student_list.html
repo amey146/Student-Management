@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block linker %}
+
+<style>
+    .student-list {
+        margin: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .student-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .student-item input {
+        width: 50px;
+    }
+</style>
+{% endblock linker %}
+{% block title %}
+Quiz 
+{% endblock title %}
+
+{% block body %}
+<h1>Quiz </h1>
+
+<form action="{% url 'quiz_submit' sbname%}" method="POST" class="form">
+    {% csrf_token %}
+    <h2>Total Marks:</h2>
+<input type="number" name="total" placeholder="Total Marks" required>
+<div class="student-list">
+    <!-- Loop over the students -->
+    {% for student in students %}
+    <div class="student-item">
+        <!-- Display student full name -->
+        <span>{{ student.fname }} {{ student.lname }}</span>
+        <!-- Input box for entering scored marks -->
+        <input type="number" name="scoredmarks_{{ student.st_id }}" required>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock body %}

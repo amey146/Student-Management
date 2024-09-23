@@ -2,6 +2,70 @@
 
 {% block linker %}
 <style>
+    /* General Body Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+    }
+    
+    h1 {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 2.5em;
+        color: #000000; /* Black color for heading */
+    }
+
+    /* Navigation Links Styling */
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 50px;
+    }
+
+    .nav-links a {
+        display: inline-block;
+        background-color: #007bff; /* Blue background */
+        color: white;
+        padding: 15px 25px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .nav-links a:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: scale(1.05);
+    }
+
+    /* Responsive Container */
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Additional Styling */
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .card-content {
+        font-size: 1.1em;
+    }
 </style>
 {% endblock linker %}
 
@@ -10,9 +74,19 @@ Attendance Management
 {% endblock title %}
 
 {% block body %}
-  <h1>Attendance Management</h1>
-  <ul>
-    <li><a href="{% url 'attendance_add' %}">Add Attendance</a></li>
-    <li><a href="{% url 'attendance_list' %}">Attendance List</a></li>
-  </ul>
+    <div class="container">
+        <h1>Attendance Management</h1>
+        <!-- Cards for better visual appeal -->
+        <div class="card">
+            <h2 class="card-title">Add Attendance</h2>
+            <p class="card-content">Click here to add new attendance records.</p>
+            <a class="btn btn-primary" href="{% url 'attendance_add' %}">Go to Add Attendance</a>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Attendance List</h2>
+            <p class="card-content">Click here to see the detailed list.</p>
+            <a class="btn btn-primary" href="{% url 'attendance_list' %}">Go to Attendance List</a>
+        </div>
+    </div>
 {% endblock body %}
