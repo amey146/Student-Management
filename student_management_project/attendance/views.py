@@ -20,18 +20,44 @@ def attendance_home(request):
 def attendance_add(request):
     courses = Course.objects.all()
     selected_course = request.GET.get('course')
-    today = timezone.now().date()
+    selected_batch = request.GET.get('batch')
+    selected_month = request.GET.get('month')
+    selected_year = request.GET.get('year')
 
+    # Set a default course if no course is selected
+    if not selected_course and courses.exists():
+        selected_course = courses.first().c_id
+
+    # Fetch distinct batch months and years for the selected course
     if selected_course:
-        students = Student.objects.filter(courses__c_id=selected_course)
+        batches = Student.objects.filter(courses__c_id=selected_course).values('batch_mon', 'batch_year').distinct()
     else:
-        students = Student.objects.all()
-    
+        batches = Student.objects.values('batch_mon', 'batch_year').distinct()
+
+    # Filter students based on selected course, month, and year
+    students_query = Student.objects.filter(courses__c_id=selected_course)
+
+    if selected_batch:
+        batch_mon, batch_year = selected_batch.split('-')
+        students_query = students_query.filter(batch_mon=batch_mon, batch_year=batch_year)
+
+    if selected_month and selected_year:
+        students_query = students_query.filter(batch_mon=selected_month, batch_year=selected_year)
+
+    # Fetch students after applying the course and date filters
+    students = students_query.all()
+
     return render(request, "attendance/attendance_add.html", {
         'courses': courses,
         'students': students,
         'selected_course': selected_course,
+        'batches': batches,
+        'selected_batch': selected_batch,
+        'selected_month': selected_month,
+        'selected_year': selected_year,
     })
+
+
 
 def attendance_add_action(request):
     today = timezone.now().date()
@@ -43,11 +69,13 @@ def attendance_add_action(request):
                 student_id = key.split('_')[1]
                 status = value
                 student = Student.objects.get(pk=student_id)
+                course = student.courses.all()
+                batch = student.batch_mon+"_"+str(student.batch_year)
                 # Collect attendance data to save in CSV
-                attendance_data.append([today, student_id, status])
+                attendance_data.append([student_id, student.fname+" "+student.lname, status, today])
         
         # Save the attendance data to CSV
-        save_attendance_to_csv(attendance_data)
+        save_attendance_to_csv(attendance_data, course[0], batch)
 
         # Call the function to send emails to absent students
         send_absent_email(request)
@@ -67,8 +95,8 @@ def attendance_add_action(request):
 
 
 # Function to save attendance to CSV
-def save_attendance_to_csv(attendance_data):
-    new_file_start = get_week_start()
+def save_attendance_to_csv(attendance_data, cname, batch):
+    new_file_start = get_day_start()
     # Specify the subdirectory 'attendance'
     attendance_dir = os.path.join(settings.MEDIA_ROOT, 'attendance')
     
@@ -76,7 +104,7 @@ def save_attendance_to_csv(attendance_data):
     if not os.path.exists(attendance_dir):
         os.makedirs(attendance_dir)
 
-    filename = f'attendance_week_{new_file_start}.csv'
+    filename = f'{cname}_{batch}_attendance_{new_file_start}.csv'
     filepath = os.path.join(attendance_dir, filename)
     
     # Create the CSV if it doesn't exist, or append if it does
@@ -87,7 +115,7 @@ def save_attendance_to_csv(attendance_data):
         
         # Write the header only if the file is new
         if not file_exists:
-            writer.writerow(['Date', 'Student ID', 'Status'])
+            writer.writerow(['Student ID', 'Name', 'Status', 'Date'])
 
         # Write attendance data
         for record in attendance_data:
@@ -223,10 +251,9 @@ def get_week_start():
 #     start_of_month = today.replace(day=1)
 #     return start_of_month
 
-# def get_day_start():
-#     today = timezone.now()
-#     start_of_day = today.replace(hour=0, minute=0, second=0, microsecond=0)
-#     return start_of_day
+def get_day_start():
+    today = timezone.now()
+    return today.strftime("%d_%m_%Y")
 
 
 

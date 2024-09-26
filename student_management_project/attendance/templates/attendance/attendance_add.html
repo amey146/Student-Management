@@ -20,14 +20,34 @@ Attendance Management
     <h1 class="text-center mb-4">Attendance Management</h1>
 
     <!-- Course Selection Form -->
-    <form method="GET" action="{% url 'attendance_add' %}" class="form-inline justify-content-center mb-4">
+    <form method="GET" action="{% url 'attendance_add' %}" class="form-inline justify-content-center mb-4"  onchange="this.form.submit()">
         <label for="course" class="mr-2">Select Course:</label>
         <select name="course" id="course" class="form-control mr-2" onchange="this.form.submit()">
-            <option value="">All Courses</option>
             {% for course in courses %}
-            <option value="{{ course.c_id }}" {% if selected_course == course.c_id %}selected{% endif %}>{{ course.cname }}</option>
+            <option value="{{ course.c_id }}" 
+                {% if selected_course %} 
+                    {% if selected_course == course.c_id %} selected {% endif %} 
+                {% else %} 
+                    {% if forloop.first %} selected {% endif %} 
+                {% endif %}>
+                {{ course.cname }}
+            </option>
             {% endfor %}
         </select>
+        <label for="batch" class="mr-2">Select Batch:</label>
+        <select name="batch" id="batch" class="form-control mr-2">
+            <option selected disabled value="">Select Batch</option>
+            {% for batch in batches %}
+                <option value="{{ batch.batch_mon }}-{{ batch.batch_year }}" 
+                    {% if selected_month and selected_year %} 
+                        {% if selected_month|stringformat:"d" == batch.batch_mon|stringformat:"d" and selected_year == batch.batch_year|stringformat:"d" %} selected {% endif %} 
+                    {% endif %}>
+                    {{ batch.batch_mon }} - {{ batch.batch_year }}
+                </option>
+            {% endfor %}
+        </select>
+    
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
     <!-- Attendance Form -->
@@ -39,32 +59,46 @@ Attendance Management
                     <tr>
                         <th>Student ID</th>
                         <th>Name</th>
+                        <th>Batch</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for student in students %}
-                    <tr>
-                        <td>{{ student.st_id }}</td>
-                        <td>{{ student.fname }} {{ student.lname }}</td>
-                        <td>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="P" id="present_{{ student.st_id }}">
-                                <label class="form-check-label" for="present_{{ student.st_id }}">Present</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="A" id="absent_{{ student.st_id }}">
-                                <label class="form-check-label" for="absent_{{ student.st_id }}">Absent</label>
-                            </div>
-                            <input type="hidden" name="student_id_{{ student.st_id }}" value="{{ student.st_id }}">
-                        </td>
-                    </tr>
-                    {% endfor %}
+                    {% if students %}
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.st_id }}</td>
+                            <td>{{ student.fname }} {{ student.lname }}</td>
+                            <td>{{ student.batch_mon }} {{ student.batch_year }}</td>
+                            <td>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="P" id="present_{{ student.st_id }}" checked>
+                                    <label class="form-check-label" for="present_{{ student.st_id }}">Present</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status_{{ student.st_id }}" value="A" id="absent_{{ student.st_id }}">
+                                    <label class="form-check-label" for="absent_{{ student.st_id }}">Absent</label>
+                                </div>
+                                <input type="hidden" name="student_id_{{ student.st_id }}" value="{{ student.st_id }}">
+                            </td>                        
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">No students found for this course.</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
         <div class="text-center">
+            {% if not students or selected_batch == None %}
+            <div class="alert alert-warning" role="alert">
+                Cannot Submit Attendance, check course and batches mismatch
+            </div>
+            {% else %}
             <button type="submit" class="btn btn-primary">Submit Attendance</button>
+            {% endif %}
         </div>
     </form>
 </div>
