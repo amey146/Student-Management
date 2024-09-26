@@ -36,14 +36,29 @@ def student_list(request, c_id, sbname):
     course = Course.objects.get(c_id=c_id)
 
     # Get all students enrolled in the given course
-    students = Student.objects.filter(courses=course)
-    sbname = Subject.objects.get(pk=sbname)
+    students_query = Student.objects.filter(courses=course)
+
+    # Get the selected batch from the request
+    selected_batch = request.GET.get('batch')
+
+    if selected_batch:
+        batch_mon, batch_year = selected_batch.split('-')
+        students_query = students_query.filter(batch_mon=batch_mon, batch_year=batch_year)
+
+    students = students_query.all()
+
+    # Fetch distinct batches for the selected course
+    batches = Student.objects.filter(courses=course).values('batch_mon', 'batch_year').distinct()
+
     context = {
         'course': course,
-        'sbname': sbname,
+        'sbname': Subject.objects.get(pk=sbname),
         'students': students,
+        'batches': batches,
+        'selected_batch': selected_batch,
     }
     return render(request, 'quizmgt/student_list.html', context)
+
 
 
 def quiz_submit(request, sbname):
@@ -63,8 +78,8 @@ def quiz_submit(request, sbname):
         save_scores_to_csv(quiz_data, sbname)
 
         # Call the function to send emails to absent students
-        # send_quiz_email(request, total, sbname)
-        send_quiz_email(request)
+        send_quiz_email(request, total, sbname)
+        # send_report_email(request)
         return render(request, 'quizmgt/emailsent.html')
 
     students = Student.objects.all()
@@ -98,12 +113,12 @@ def save_scores_to_csv(quiz_data, sbname):
         for record in quiz_data:
             writer.writerow(record)
 
-def o_send_quiz_email(request, total, sbname):
+def dummy_send_quiz_email(request, total, sbname):
     return render(request, 'quizmgt/emailsent.html')
 
 
 # Below Code works but disabled for testing
-def yes_send_quiz_email(request, total, sbname):
+def send_quiz_email(request, total, sbname):
     today = date.today()
     formatted_date = today.strftime("%d-%m-%Y")
 
@@ -313,7 +328,7 @@ def generate_pdf(student_name, roll_number, course_name, course_percentage, subj
     buffer.seek(0)
     return buffer
 
-def send_quiz_email(request):
+def send_report_email(request):
     today = date.today()
     formatted_date = today.strftime("%d-%m-%Y")
 
@@ -334,7 +349,7 @@ def send_quiz_email(request):
             course_percentage = 87
             subjects = {"Math": 90, "Statistics": 85, "Programming": 88}
             final_grade = "A"
-            logo_path = "static/logo.png"
+            logo_path = "static/images/logo.png"
 
             pdf_buffer = generate_pdf(student_name, student_id, course_name, course_percentage, subjects, final_grade, logo_path)
 
