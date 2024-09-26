@@ -58,6 +58,7 @@ Student Home
                         {% for course in s.courses.all %}
                             {{ course.cname }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}
+                        ({{ s.batch_mon }} - {{ s.batch_year }})
                     </td>
                     <td>
                         <div class="btn-group">

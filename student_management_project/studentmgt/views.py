@@ -24,6 +24,8 @@ def student_add(request):
         pr_phone = request.POST.get("pr_phone")
         address = request.POST.get("address")
         course_ids = request.POST.getlist("courses")
+        batch_month = request.POST.get("batch_month")
+        batch_year = request.POST.get("batch_year")
 
         # Check if the student with the given st_id already exists
         if Student.objects.filter(st_id=st_id).exists():
@@ -33,7 +35,7 @@ def student_add(request):
 
         # Create and save the student
         s = Student(st_id=st_id, fname=fname, lname=lname, dob=dob, gender=gender,
-                    st_email=st_email, pr_email=pr_email, phone=phone, pr_phone=pr_phone ,address=address)
+                    st_email=st_email, pr_email=pr_email, phone=phone, pr_phone=pr_phone ,address=address, batch_mon = batch_month, batch_year = batch_year)
         s.save()
 
         # Assign selected courses to the student
@@ -70,6 +72,8 @@ def student_do_update(request, st_id):
         phone = request.POST.get("phone")
         address = request.POST.get("address")
         course_ids = request.POST.getlist("courses")
+        batch_month = request.POST.get("batch_month")
+        batch_year = request.POST.get("batch_year")
 
         std = Student.objects.get(pk=st_id)
         std.fname = fname
@@ -80,6 +84,8 @@ def student_do_update(request, st_id):
         std.pr_email = pr_email
         std.phone = phone
         std.address = address
+        std.batch_mon = batch_month
+        std.batch_year = batch_year
         std.save()
 
         # Clear existing courses and add the selected ones

@@ -85,6 +85,28 @@ Student Add
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="batch_month"><i class="fas fa-calendar-alt"></i> Batch Month</label>
+                            <select name="batch_month" id="batch_month" class="form-control border-primary" required>
+                                <option value="" disabled selected>Select Batch Month</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="batch_year"><i class="fas fa-calendar"></i> Batch Year</label>
+                            <input type="number" name="batch_year" id="batch_year" class="form-control border-primary" placeholder="Enter Year" required min="1950" max="2100">
+                        </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-block" style="background-color: #0b2e59; color: #ffffff;"><i class="fas fa-user-plus"></i> Add Student</button>
                         </div>
