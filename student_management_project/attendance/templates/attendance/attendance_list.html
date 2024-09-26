@@ -7,6 +7,16 @@ View Attendance Records
 {% block body %}
 <div class="container my-5">
     <h1 class="text-center mb-4">View Attendance Records</h1>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" placeholder="Search for CSV files" value="{{ request.GET.search }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
     {% if zipped_files %}
         <ul class="list-group">
             {% for file, file_url, delete_url in zipped_files %}
