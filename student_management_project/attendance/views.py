@@ -124,9 +124,12 @@ def save_attendance_to_csv(attendance_data, cname, batch):
 
 
 def attendance_list(request):
+    search_query = request.GET.get('search', '')
+
     # Update the path to include 'attendance' subdirectory
     media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
     csv_files = []
+
     try:
         if os.path.exists(media_root):
             for file in os.listdir(media_root):
@@ -136,13 +139,14 @@ def attendance_list(request):
                         with open(os.path.join(media_root, file), 'r') as f:
                             reader = csv.reader(f)
                             next(reader)  # Skip header row
-                            csv_files.append(file)
+                            if search_query.lower() in file.lower():  # Case-insensitive search
+                                csv_files.append(file)
                     except csv.Error:
                         print(f"Invalid CSV file: {file}")
-                else:
-                    print(f"Not a CSV file: {file}")
-        else:
-            print("Attendance folder not found")
+                    except Exception as e:  # Catch other potential errors
+                        print(f"Error processing file {file}: {e}")
+            else:
+                print("Attendance folder not found")
     except FileNotFoundError:
         print("Attendance folder not found")
 
