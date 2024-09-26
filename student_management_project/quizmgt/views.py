@@ -88,7 +88,7 @@ def quiz_submit(request, sbname):
 
 # Function to save attendance to CSV
 def save_scores_to_csv(quiz_data, sbname):
-    new_file_start = get_month_start()
+    new_file_start = get_day_start()
     # Specify the subdirectory 'attendance'
     score_dir = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
     
@@ -96,7 +96,7 @@ def save_scores_to_csv(quiz_data, sbname):
     if not os.path.exists(score_dir):
         os.makedirs(score_dir)
 
-    filename = f'{sbname}_{new_file_start}.csv'
+    filename = f'{sbname}_quiz_{new_file_start}.csv'
     filepath = os.path.join(score_dir, filename)
     
     # Create the CSV if it doesn't exist, or append if it does
@@ -173,6 +173,10 @@ def get_month_start():
     month_name = today.strftime("%B")
     year = today.year
     return f"{month_name}_{year}"
+
+def get_day_start():
+    today = timezone.now()
+    return today.strftime("%d_%m_%Y")
 
 def quiz_list(request):
     # Update the path to include 'attendance' subdirectory
