@@ -24,9 +24,26 @@ Quiz
 
 {% block body %}
 <h1>Quiz </h1>
+<form method="GET" action="" class="form-inline justify-content-center mb-4" onchange="this.form.submit()">
+    <label for="batch" class="mr-2">Select Batch:</label>
+    <select name="batch" id="batch" class="form-control mr-2">
+        <option selected disabled value="">Select Batch</option>
+        {% for batch in batches %}
+            <option value="{{ batch.batch_mon }}-{{ batch.batch_year }}" 
+                {% if selected_batch %} 
+                    {% if selected_batch == batch.batch_mon|stringformat:"d"|add:"-"|add:batch.batch_year|stringformat:"d" %} selected {% endif %} 
+                {% endif %}>
+                {{ batch.batch_mon }} - {{ batch.batch_year }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 
 <form action="{% url 'quiz_submit' sbname%}" method="POST" class="form">
     {% csrf_token %}
+    
     <h2>Total Marks:</h2>
 <input type="number" name="total" placeholder="Total Marks" required>
 <div class="student-list">
@@ -41,6 +58,14 @@ Quiz
     <hr>
     {% endfor %}
 </div>
-<button type="submit" class="btn btn-primary">Submit</button>
+<div class="text-center">
+    {% if not students or selected_batch == None %}
+    <div class="alert alert-warning" role="alert">
+        Cannot Submit Record, check batches mismatch
+    </div>
+    {% else %}
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    {% endif %}
+</div>
 </form>
 {% endblock body %}
