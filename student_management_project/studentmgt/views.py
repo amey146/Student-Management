@@ -10,6 +10,7 @@ def student_home(request):
     return render(request, "studentmgt/student_home.html", {'std': std})
 
 
+
 def student_add(request):
     if request.method == 'POST':
         # Retrieve the user inputs

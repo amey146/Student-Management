@@ -3,7 +3,7 @@ from django.db import models
 from coursemgt.models import Course
 
 class Student(models.Model):
-    st_id = models.TextField(primary_key=True)
+    st_id = models.AutoField(primary_key=True)  # Auto-incrementing primary key
     fname = models.CharField(max_length=255)
     lname = models.CharField(max_length=255)
     dob = models.DateField()
