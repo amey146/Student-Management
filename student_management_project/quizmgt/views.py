@@ -74,8 +74,9 @@ def quiz_submit(request, sbname):
                 student = Student.objects.get(pk=student_id)
                 # Collect attendance data to save in CSV
                 quiz_data.append([today, sbname, student_id, student.fname+" "+student.lname, score, total])
+                batch = student.batch_mon+"_"+str(student.batch_year)
         # Save the attendance data to CSV
-        save_scores_to_csv(quiz_data, sbname)
+        save_scores_to_csv(quiz_data, sbname, batch)
 
         # Call the function to send emails to absent students
         send_quiz_email(request, total, sbname)
@@ -87,7 +88,7 @@ def quiz_submit(request, sbname):
 
 
 # Function to save attendance to CSV
-def save_scores_to_csv(quiz_data, sbname):
+def save_scores_to_csv(quiz_data, sbname, batch):
     new_file_start = get_day_start()
     # Specify the subdirectory 'attendance'
     score_dir = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
@@ -96,7 +97,7 @@ def save_scores_to_csv(quiz_data, sbname):
     if not os.path.exists(score_dir):
         os.makedirs(score_dir)
 
-    filename = f'{sbname}_quiz_{new_file_start}.csv'
+    filename = f'{sbname}_{batch}_quiz_{new_file_start}.csv'
     filepath = os.path.join(score_dir, filename)
     
     # Create the CSV if it doesn't exist, or append if it does
@@ -179,6 +180,8 @@ def get_day_start():
     return today.strftime("%d_%m_%Y")
 
 def quiz_list(request):
+    search_query = request.GET.get('search', '')
+
     # Update the path to include 'attendance' subdirectory
     media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
     csv_files = []
@@ -192,13 +195,14 @@ def quiz_list(request):
                         with open(os.path.join(media_root, file), 'r') as f:
                             reader = csv.reader(f)
                             next(reader)  # Skip header row
-                            csv_files.append(file)
+                            if search_query.lower() in file.lower():  # Case-insensitive search
+                                csv_files.append(file)
                     except csv.Error:
                         print(f"Invalid CSV file: {file}")
-                else:
-                    print(f"Not a CSV file: {file}")
-        else:
-            print("Quiz folder not found")
+                    except Exception as e:  # Catch other potential errors
+                        print(f"Error processing file {file}: {e}")
+            else:
+                print("Quiz folder not found")
     except FileNotFoundError:
         print("Quiz folder not found")
 
