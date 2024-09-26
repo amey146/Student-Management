@@ -8,6 +8,7 @@ Quiz Mgt
 <div class="quiz-mgt-container">
     <h1 class="text-center mb-4">Quiz Management</h1>
 
+    <!-- Course Details Card -->
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title">Course Details</h5>
@@ -16,6 +17,7 @@ Quiz Mgt
         </div>
     </div>
 
+    <!-- Subject Selection Section -->
     <h5 class="text-center mb-4">Select a Subject</h5>
     <div class="list-group">
         {% for s in subjects %}
@@ -33,28 +35,34 @@ Quiz Mgt
 
 {% block linker %}
 <style>
-    /* Container styling specific to Quiz Management page */
+    /* Container styling for Quiz Management */
     .quiz-mgt-container {
         max-width: 800px;
-        margin: auto;
+        margin: 20px auto;
         padding: 20px;
+        background-color: #f8f9fa; /* Light background consistent with other modules */
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* Header styling */
     .quiz-mgt-container h1 {
         font-size: 2.5rem;
-        color: #003366; /* Dark blue */
+        font-weight: bold;
+        color: #0b2e59; /* Dark blue for uniformity */
+        margin-bottom: 20px;
     }
 
     .quiz-mgt-container h5 {
-        color: #0056b3; /* Medium blue */
+        font-size: 1.5rem;
+        color: #0c1f6a; /* Medium blue for subheadings */
+        margin-bottom: 15px;
     }
 
     /* Card styling */
     .quiz-mgt-container .card {
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
         border: 1px solid #e0e0e0; /* Light gray border */
     }
 
@@ -65,21 +73,21 @@ Quiz Mgt
 
     .quiz-mgt-container .card-title {
         font-size: 1.5rem;
+        color: #003366; /* Dark blue for titles */
         margin-bottom: 15px;
-        color: #003366; /* Dark blue */
     }
 
-    /* List item styling */
+    /* Subject list item styling */
     .quiz-mgt-container .course-list-item {
         padding: 15px;
-        background: #ffffff; /* White background */
+        background-color: #ffffff; /* White background */
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
         margin-bottom: 15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        transition: background-color 0.3s, box-shadow 0.3s;
     }
 
     .quiz-mgt-container .course-list-item:hover {
@@ -87,18 +95,18 @@ Quiz Mgt
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     }
 
-    /* Button styling */
+    /* Next button styling */
     .quiz-mgt-container .next-btn {
         font-size: 1rem;
         color: #ffffff;
-        text-decoration: none;
-        border: 2px solid #007bff; /* Blue border */
+        border: 2px solid #0c1f6a; /* Blue border */
         border-radius: 5px;
         padding: 8px 16px;
-        background-color: #007bff; /* Blue background */
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        background-color: #0c1f6a; /* Blue background */
         display: inline-flex;
         align-items: center;
+        text-decoration: none;
+        transition: background-color 0.3s, border-color 0.3s;
     }
 
     .quiz-mgt-container .next-btn i {
@@ -106,10 +114,8 @@ Quiz Mgt
     }
 
     .quiz-mgt-container .next-btn:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-        border-color: #0056b3;
-        color: #ffffff;
-        text-decoration: none;
+        background-color: #0c1f6a; /* Darker blue on hover */
+        border-color: #0c1f6a;
     }
 </style>
 {% endblock linker %}

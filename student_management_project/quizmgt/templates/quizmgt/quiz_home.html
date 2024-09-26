@@ -5,43 +5,66 @@ Quiz Home
 {% endblock title %}
 
 {% block body %}
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="text-center">
-        <h1 class="mb-4"> Welcome to Quiz</h1>
-        <div class="mb-4">
-            <a href="{% url 'quiz_add' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-plus"></i> Create New Quiz Results
-            </a>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Welcome to Quiz</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Create New Quiz Results</h5>
+                    <a href="{% url 'quiz_add' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-plus"></i> Create Quiz
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="mb-4">
-            <a href="{% url 'quiz_list' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-list"></i> View Quiz Records
-            </a>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Quiz Records</h5>
+                    <a href="{% url 'quiz_list' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-list"></i> View Records
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock body %}
 
+{% block linker %}
 <style>
-    /* Full height for the Flex container */
-    .vh-100 {
-        height: 100vh; /* 100% of the viewport height */
+    h1 {
+        font-size: 2.5em;
+        color: #0b2e59; /* Deep blue color for heading */
+        font-weight: 700;
     }
 
-    /* Centering using Flexbox */
-    .d-flex {
-        display: flex; /* Flexbox layout */
+    .card {
+        border: 1px solid #0b2e59; /* Border color for the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        transition: transform 0.2s; /* Smooth transition for hover effect */
     }
 
-    .justify-content-center {
-        justify-content: center; /* Center horizontally */
+    .card:hover {
+        transform: translateY(-5px); /* Slightly elevate card on hover */
     }
 
-    .align-items-center {
-        align-items: center; /* Center vertically */
+    /* Custom button styling */
+    .btn-custom {
+        background-color: #0b2e59; /* Dark blue background */
+        color: #ffffff; /* White text color for contrast */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        padding: 10px 20px; /* Padding */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
     }
 
-    .text-center {
-        text-align: center; /* Center align text */
+    /* Hover effect for custom buttons */
+    .btn-custom:hover {
+        background-color: #0a2a4d; /* Slightly darker on hover */
+        color: #ffffff; /* White text color */
     }
 </style>
+{% endblock linker %}

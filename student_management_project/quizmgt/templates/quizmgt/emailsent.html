@@ -1,22 +1,27 @@
 {% extends "base.html" %}
 
-
 {% block linker %}
 <style>
     .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh; /* Vertically center the content */
         text-align: center;
     }
     .container img {
-        height: 400px;
+        height: 250px; /* Reduced height for better visibility */
+        margin-bottom: 20px;
     }
     .container h1 {
         margin-top: 20px;
-        font-size: 24px;
+        font-size: 28px;
         color: #333;
+        font-weight: bold;
     }
 </style>
 {% endblock linker %}
-
 
 {% block title %}
 Email Sent Successfully
@@ -24,8 +29,7 @@ Email Sent Successfully
 
 {% block body %}
 <div class="container">
-    <img src="/static/success_tick.gif" alt="Success">
-    <h1>Emails Sent</h1>
+    <img src="/static/success_tick.gif" alt="Success" />
+    <h1>Emails Sent Successfully</h1>
 </div>
-
 {% endblock body %}
