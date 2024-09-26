@@ -65,11 +65,10 @@ def quiz_submit(request, sbname):
         # Call the function to send emails to absent students
         # send_quiz_email(request, total, sbname)
         send_quiz_email(request)
-        return render(request, 'attendance/emailsent.html')
+        return render(request, 'quizmgt/emailsent.html')
 
     students = Student.objects.all()
     return render(request, "quizmgt/quiz_home.html")
-    return render(request, 'attendance.html', {'students': students})
 
 
 # Function to save attendance to CSV
@@ -100,7 +99,7 @@ def save_scores_to_csv(quiz_data, sbname):
             writer.writerow(record)
 
 def o_send_quiz_email(request, total, sbname):
-    return render(request, 'attendance/emailsent.html')
+    return render(request, 'quizmgt/emailsent.html')
 
 
 # Below Code works but disabled for testing
@@ -146,7 +145,7 @@ Fax: +91 (0) 456 7891
             fail_silently=False
         )
     
-    return render(request, 'attendance/emailsent.html')
+    return render(request, 'quizmgt/emailsent.html')
 
 
 def get_week_start():
@@ -371,4 +370,4 @@ Fax: +91 (0) 456 7891
         # Send the email
         email.send(fail_silently=False)
     
-    return render(request, 'attendance/emailsent.html')
+    return render(request, 'quizmgt/emailsent.html')
