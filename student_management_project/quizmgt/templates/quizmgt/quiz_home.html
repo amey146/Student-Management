@@ -4,6 +4,75 @@
 Quiz Home
 {% endblock title %}
 
+{% block linker %}
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fc; /* Light background */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        color: #0b2e59; /* Deep blue color for heading */
+        font-weight: 700;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    /* Card Styling */
+    .card {
+        border: 1px solid #0b2e59; /* Border color for the card */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin-bottom: 30px; /* Space between cards */
+    }
+    .card-title {
+        font-size: 1.7em;
+        color: #0b2e59; /* Deep blue for titles */
+        font-weight: 600;
+    }
+
+    /* Custom button styling */
+    .btn-custom {
+        background-color: #0b2e59; /* Dark blue background */
+        color: #ffffff; /* White text color for contrast */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        padding: 12px 30px; /* Padding */
+        font-size: 1.1em;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: none; /* Disable transition effects */
+    }
+
+    /* No hover or active effects for buttons */
+    .btn-custom:hover,
+    .btn-custom:active,
+    .btn-custom:focus {
+        background-color: #0b2e59; /* Keep the same color */
+        outline: none; /* Remove outline */
+        transform: none; /* No transformation */
+    }
+
+    /* Responsive Container */
+    .container {
+        max-width: 1000px; /* Adjusted for modern wide displays */
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+    }
+</style>
+{% endblock linker %}
+
 {% block body %}
 <div class="container mt-5">
     <h1 class="text-center mb-4">Welcome to Quiz</h1>
@@ -31,40 +100,3 @@ Quiz Home
     </div>
 </div>
 {% endblock body %}
-
-{% block linker %}
-<style>
-    h1 {
-        font-size: 2.5em;
-        color: #0b2e59; /* Deep blue color for heading */
-        font-weight: 700;
-    }
-
-    .card {
-        border: 1px solid #0b2e59; /* Border color for the card */
-        border-radius: 10px; /* Rounded corners */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        transition: transform 0.2s; /* Smooth transition for hover effect */
-    }
-
-    .card:hover {
-        transform: translateY(-5px); /* Slightly elevate card on hover */
-    }
-
-    /* Custom button styling */
-    .btn-custom {
-        background-color: #0b2e59; /* Dark blue background */
-        color: #ffffff; /* White text color for contrast */
-        border: none; /* Remove border */
-        border-radius: 5px; /* Rounded corners */
-        padding: 10px 20px; /* Padding */
-        transition: background-color 0.3s; /* Smooth transition for hover effect */
-    }
-
-    /* Hover effect for custom buttons */
-    .btn-custom:hover {
-        background-color: #0a2a4d; /* Slightly darker on hover */
-        color: #ffffff; /* White text color */
-    }
-</style>
-{% endblock linker %}

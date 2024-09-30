@@ -26,7 +26,7 @@ Add Subject
                     <tr>
                         <td class="col-label"><label for="courses" class="form-label"><i class="fas fa-book"></i> Courses</label></td>
                         <td>
-                            <select name="courses" id="courses" class="form-control border-primary" multiple required>
+                            <select name="courses" id="courses" class="form-control border-input" multiple required>
                                 {% for course in courses %}
                                 <option value="{{ course.c_id }}">{{ course.cname }}</option>
                                 {% endfor %}
@@ -46,7 +46,7 @@ Add Subject
 <style>
     /* Card Styling for Consistency */
     .card {
-        border: none;
+        border: 2px solid #0b2e59; /* Border color and thickness */
         border-radius: 10px;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
         padding: 30px;
@@ -82,10 +82,15 @@ Add Subject
 
     .form-control {
         border-radius: 5px;
-        border: 1px solid #0b2e59;
+        border: 1px solid #0b2e59; /* Default border color for inputs */
         padding: 10px;
         transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
         width: 100%; /* Full width inputs */
+    }
+
+    /* Courses select element styling */
+    #courses {
+        border: 1px solid #0b2e59; /* Match border color to other input fields */
     }
 
     .form-control:focus {

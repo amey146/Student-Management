@@ -14,17 +14,20 @@ Edit Course
             
             <div class="form-group">
                 <label for="cid" class="form-label">Course ID</label>
-                <input type="text" name="cid" id="cid" value="{{c.c_id}}" class="form-control" required>
+                <input type="text" name="cid" id="cid" value="{{ c.c_id }}" class="form-control" required 
+                       placeholder="Enter Course ID" data-toggle="tooltip" title="Enter a unique Course ID">
             </div>
             
             <div class="form-group">
                 <label for="cname" class="form-label">Course Name</label>
-                <input type="text" name="cname" id="cname" value="{{c.cname}}" class="form-control" required>
+                <input type="text" name="cname" id="cname" value="{{ c.cname }}" class="form-control" required 
+                       placeholder="Enter Course Name" data-toggle="tooltip" title="Enter the name of the Course">
             </div>
             
             <div class="form-group">
                 <label for="cduration" class="form-label">Course Duration (hours)</label>
-                <input type="number" name="cduration" id="cduration" value="{{c.cduration}}" class="form-control" required>
+                <input type="number" name="cduration" id="cduration" value="{{ c.cduration }}" class="form-control" required 
+                       placeholder="Enter Course Duration" data-toggle="tooltip" title="Enter duration in hours">
             </div>
             
             <div class="text-center">
@@ -38,11 +41,11 @@ Edit Course
 <style>
     /* Card Styling for Consistency */
     .card {
-        border: none;
+        border: 2px solid #0b2e59; /* Border color and thickness */
         border-radius: 10px;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
         padding: 30px;
-        background-color: #ffffff; /* Set card background to white */
+        background-color: #f8f9fa; /* Light background color */
         margin-bottom: 20px;
     }
 
@@ -104,4 +107,13 @@ Edit Course
         }
     }
 </style>
+
+<!-- Include Bootstrap JS and jQuery for tooltips -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip(); // Initialize tooltips
+    });
+</script>
 {% endblock body %}
