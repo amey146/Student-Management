@@ -31,5 +31,7 @@ Email Sent Successfully
 <div class="container">
     <img src="/static/success_tick.gif" alt="Success" />
     <h1>Emails Sent Successfully</h1>
+    <a href="{% url 'quiz_add' %}" class="btn btn-primary">Add Quiz</a>
+    <a href="{% url 'quiz_list' %}" class="btn btn-success">List Quiz Files</a>
 </div>
 {% endblock body %}

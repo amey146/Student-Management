@@ -248,8 +248,8 @@ def quiz_list(request):
         print("Quiz folder not found")
 
     # Generate download URLs (assuming you have a download view)
-    file_urls = [reverse('download_csv', kwargs={'file_name': file}) for file in csv_files]
-    delete_urls = [reverse('delete_csv', kwargs={'file_name': file}) for file in csv_files]
+    file_urls = [reverse('download_csv', kwargs={'file_name': file, 'dir_name': 'quiz_score'}) for file in csv_files]
+    delete_urls = [reverse('delete_csv', kwargs={'file_name': file, 'dir_name': 'quiz_score'}) for file in csv_files]
     zipped_files = list(zip(csv_files, file_urls, delete_urls))
     context = {'zipped_files': zipped_files}
     return render(request, 'quizmgt/quiz_list.html', context)
@@ -282,8 +282,8 @@ def report_list(request):
         print("Report folder not found")
 
     # Generate download URLs (assuming you have a download view)
-    file_urls = [reverse('download_csv', kwargs={'file_name': file}) for file in csv_files]
-    delete_urls = [reverse('delete_csv', kwargs={'file_name': file}) for file in csv_files]
+    file_urls = [reverse('download_csv', kwargs={'file_name': file, 'dir_name': 'report_score'}) for file in csv_files]
+    delete_urls = [reverse('delete_csv', kwargs={'file_name': file, 'dir_name': 'report_score'}) for file in csv_files]
     zipped_files = list(zip(csv_files, file_urls, delete_urls))
     context = {'zipped_files': zipped_files}
     return render(request, 'quizmgt/report_list.html', context)
@@ -313,7 +313,7 @@ def report_generation(request):
             total_possible = 0  # To hold the sum of total possible scores across all subjects
 
             for subject, data in subject_scores.items():
-                response_string += f"Student: {student_name}, Subject: {subject}, Total Score: {data['scores']}, Total Possible: {data['totals']}\n"
+                # response_string += f"Student: {student_name}, Subject: {subject}, Total Score: {data['scores']}, Total Possible: {data['totals']}\n"
                 total_scores += data['scores']  # Accumulating total scores
                 total_possible += data['totals']  # Accumulating total possible scores
 
@@ -328,10 +328,11 @@ def report_generation(request):
 
             pdf_buffer = generate_pdf(student_name=student_name,roll_number=student.st_id,course_name=course_name,course_percentage=overall_percentage,subject_scores=subject_scores)
             send_report_email(request=request,pdf_buffer=pdf_buffer,guardian_email=student.pr_email)
-
-        return HttpResponse(response_string, content_type="text/plain")
+            
+        return render(request, 'quizmgt/emailsent.html', {subject_scores})
     else:
-        return HttpResponse("Sorry its not a month start")
+        return HttpResponse("Sorry its not a month start today")
+
 
 
 from datetime import datetime
@@ -379,9 +380,9 @@ def is_new_month_start():
     return today.day == 1
 
 
-def download_csv(request, file_name):
+def download_csv(request, file_name, dir_name):
     # Update to include 'attendance' subdirectory
-    media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
+    media_root = os.path.join(settings.MEDIA_ROOT, dir_name)
     file_path = os.path.join(media_root, file_name)
     try:
         with open(file_path, 'rb') as f:
@@ -394,9 +395,9 @@ def download_csv(request, file_name):
         return HttpResponse('Permission denied', status=403)
 
 
-def delete_csv(request, file_name):
+def delete_csv(request, file_name, dir_name):
     # Update to include 'attendance' subdirectory
-    media_root = os.path.join(settings.MEDIA_ROOT, 'quiz_score')
+    media_root = os.path.join(settings.MEDIA_ROOT, dir_name)
     file_path = os.path.join(media_root, file_name)
     try:
         os.remove(file_path)
