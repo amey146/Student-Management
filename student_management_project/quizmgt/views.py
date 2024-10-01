@@ -300,14 +300,35 @@ def report_generation(request):
         month = last_month_date.strftime('%m')
         response_string = "Reports generated successfully!\n\n"
         for student in students:
+            total_scores = 0  # To hold the sum of scores across all subjects
+            total_possible = 0  # To hold the sum of total possible scores across all subjects
+            overall_percentage = 0
             # Generate the CSV file name for the current student
-            # csv_file_path = os.path.join(report_dir, f"{student.pk}.csv")
-            csv_file_path = os.path.join(report_dir, "10.csv")
+            csv_file_path = os.path.join(report_dir, f"{student.pk}.csv")
             subject_scores = extract_report_individual(csv_file_path, month)
-        
-            # Display the extracted scores and totals
+            student_name = student.fname+" "+student.lname
+            course_name = student.courses.first()
+
+            total_scores = 0  # To hold the sum of scores across all subjects
+            total_possible = 0  # To hold the sum of total possible scores across all subjects
+
             for subject, data in subject_scores.items():
-               response_string += f"Subject: {subject}, Total Score: {data['scores']}, Total Possible: {data['totals']}\n"
+                response_string += f"Student: {student_name}, Subject: {subject}, Total Score: {data['scores']}, Total Possible: {data['totals']}\n"
+                total_scores += data['scores']  # Accumulating total scores
+                total_possible += data['totals']  # Accumulating total possible scores
+
+            # Calculate overall percentage
+            if total_possible > 0:  # Avoid division by zero
+                overall_percentage = (total_scores / total_possible) * 100
+                response_string += f"Overall Percentage: {overall_percentage:.2f}%\n"
+            else:
+                response_string += "Total possible score is zero, cannot calculate percentage.\n"
+
+                
+
+            pdf_buffer = generate_pdf(student_name=student_name,roll_number=student.st_id,course_name=course_name,course_percentage=overall_percentage,subject_scores=subject_scores)
+            send_report_email(request=request,pdf_buffer=pdf_buffer,guardian_email=student.pr_email)
+
         return HttpResponse(response_string, content_type="text/plain")
     else:
         return HttpResponse("Sorry its not a month start")
@@ -469,12 +490,13 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from datetime import date
 
-def generate_pdf(student_name, roll_number, course_name, course_percentage, subject_scores, final_grade, logo_path):
+def generate_pdf(student_name, roll_number, course_name, course_percentage, subject_scores):
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
-    
+    today = date.today
     # Add logo (logo_path is the path to the logo image file)
+    logo_path = "static/images/logo.png"
     if logo_path:
         logo = ImageReader(logo_path)
         p.drawImage(logo, 50, height - 100, width=100, height=50, preserveAspectRatio=True, mask='auto')
@@ -525,9 +547,9 @@ def generate_pdf(student_name, roll_number, course_name, course_percentage, subj
     table.wrapOn(p, width, height)
     table.drawOn(p, 100, height - 320)
     
-    # Final grade
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(100, height - 380, f"Final Grade: {final_grade}")
+    # # Final grade
+    # p.setFont("Helvetica-Bold", 14)
+    # p.drawString(100, height - 380, f"Final Grade: {final_grade}")
     
     # Footer
     yr = date.today()
@@ -548,41 +570,13 @@ def generate_pdf(student_name, roll_number, course_name, course_percentage, subj
 
 
 
-def send_report_email(request):
-    today = date.today()
-    formatted_date = today.strftime("%d-%m-%Y")
-
-    # Fetch all students marked as from the POST data
-    student_objects = []
-    student_scores = []
-    for key, value in request.POST.items():
-        if key.startswith('scoredmarks_'):
-            student_id = key.split('_')[1]
-            student_scores.append(value)
-            student = Student.objects.get(pk=student_id)
-            courses = student.courses.all()
-            student_objects.append(student)
-            
-            # Generate the PDF
-            student_name = student.fname+" "+student.lname
-            course_name = courses[0].cname
-            course_percentage = 87
-            subjects = {"Math": 90, "Statistics": 85, "Programming": 88}
-            final_grade = "A"
-            logo_path = "static/images/logo.png"
-
-            pdf_buffer = generate_pdf(student_name, student_id, course_name, course_percentage, subjects, final_grade, logo_path)
-
-    # Loop through each student and send an email
-    for student, score in zip(student_objects, student_scores):
-        guardian_email = student.pr_email  # Use the `pr_email` field from the Student model
-        student_name = f"{student.fname} {student.lname}"  # Combine first and last names
-        
-        # Format the message with the student's name
-        message = f'''Dear Parent/Guardian,
+def send_report_email(request, pdf_buffer, guardian_email):
+    # Format the message with the student's name
+    message = f'''Dear Parent/Guardian,
 
 This is a final report of your ward of this month.
 Please contact us if you have any questions.
+Please find the attachment below.
 
 Thank you,
 Utkarsh Minds
@@ -592,18 +586,18 @@ Fax: +91 (0) 456 7891
 '''
 
         # Create email with attachment
-        email = EmailMessage(
-            subject='Quiz Score Report',
+    email = EmailMessage(
+            subject='Monthly ScoreCard Report',
             body=message,
             from_email=settings.EMAIL_HOST_USER,
             to=[guardian_email],
         )
 
         # Attach the generated PDF
-        email.attach('report.pdf', pdf_buffer.getvalue(), 'application/pdf')
+    email.attach('report.pdf', pdf_buffer.getvalue(), 'application/pdf')
 
         # Send the email
-        email.send(fail_silently=False)
+    email.send(fail_silently=False)
     
     return render(request, 'quizmgt/emailsent.html')
 
