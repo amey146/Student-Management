@@ -97,6 +97,26 @@ Quiz Home
                 </div>
             </div>
         </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">View Report Records</h5>
+                    <a href="{% url 'report_list' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-list"></i> View Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Send Report Mails</h5>
+                    <a href="{% url 'report_generation' %}" class="btn btn-custom btn-lg">
+                        <i class="fas fa-check"></i> Generate Reports
+                    </a>
+                </div>
+            </div>
+        </div>        
     </div>
 </div>
 {% endblock body %}

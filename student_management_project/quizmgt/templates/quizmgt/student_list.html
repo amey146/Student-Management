@@ -141,15 +141,14 @@ Quiz
         <button type="submit" class="btn">Submit</button>
     </form>
 
-    <!-- Total Marks section -->
+    <!-- Student marks table -->
+    <form action="{% url 'quiz_submit' sbname %}" method="POST" class="form">
+        {% csrf_token %}
+        <!-- Total Marks section -->
     <div class="total-marks-container">
         <label class="total-marks-label">Total Marks:</label>
         <input type="number" name="total" class="total-marks-input" placeholder="Marks" required>
     </div>
-
-    <!-- Student marks table -->
-    <form action="{% url 'quiz_submit' sbname %}" method="POST" class="form">
-        {% csrf_token %}
         <table class="student-table">
             <thead>
                 <tr>
