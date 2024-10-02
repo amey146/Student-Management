@@ -73,6 +73,7 @@ def attendance_add_action(request):
                 batch = student.batch_mon+"_"+str(student.batch_year)
                 # Collect attendance data to save in CSV
                 attendance_data.append([student_id, student.fname+" "+student.lname, status, today])
+                save_individual_attendance_to_csv(student_id, student.fname+" "+student.lname, course[0], batch, status, today)
         
         # Save the attendance data to CSV
         save_attendance_to_csv(attendance_data, course[0], batch)
@@ -88,6 +89,32 @@ def attendance_add_action(request):
 
 
 
+# Function to save attendance to CSV
+def save_individual_attendance_to_csv(student_id, student_name, cname, batch, status, date):
+    #roll id wise new file
+    new_file_start = student_id
+    # Specify the subdirectory 'individual_attendance'
+    attendance_dir = os.path.join(settings.MEDIA_ROOT, 'individual_attendance')
+    
+    # Ensure the directory exists
+    if not os.path.exists(attendance_dir):
+        os.makedirs(attendance_dir)
+
+    filename = f'{cname}_{batch}_attendance_id_{new_file_start}.csv'
+    filepath = os.path.join(attendance_dir, filename)
+    
+    # Create the CSV if it doesn't exist, or append if it does
+    file_exists = os.path.isfile(filepath)
+
+    with open(filepath, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        
+        # Write the header only if the file is new
+        if not file_exists:
+            writer.writerow(['Student ID', 'Name', 'Status', 'Date'])
+
+        # Write attendance data
+        writer.writerow([student_id, student_name, status, date])
 
 
 
