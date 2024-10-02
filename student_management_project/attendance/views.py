@@ -177,17 +177,59 @@ def attendance_list(request):
     except FileNotFoundError:
         print("Attendance folder not found")
 
+ 
+
+
+
     # Generate download URLs (assuming you have a download view)
-    file_urls = [reverse('attendance_download_csv', kwargs={'file_name': file}) for file in csv_files]
-    delete_urls = [reverse('attendance_delete_csv', kwargs={'file_name': file}) for file in csv_files]
+    file_urls = [reverse('attendance_download_csv',kwargs={'file_name': file, 'dir_name': 'attendance'}) for file in csv_files]
+    delete_urls = [reverse('attendance_delete_csv', kwargs={'file_name': file, 'dir_name': 'attendance'}) for file in csv_files]
+
+
+
     zipped_files = list(zip(csv_files, file_urls, delete_urls))
     context = {'zipped_files': zipped_files}
     return render(request, 'attendance/attendance_list.html', context)
 
 
-def download_csv(request, file_name):
+def ind_attendance_list(request):
+    search_query = request.GET.get('search', '')
+
+    # Update the path to include 'attendance' subdirectory
+    media_root = os.path.join(settings.MEDIA_ROOT, 'individual_attendance')
+    csv_files = []
+
+    try:
+        if os.path.exists(media_root):
+            for file in os.listdir(media_root):
+                if file.endswith('.csv'):
+                    # Validate the file as a CSV
+                    try:
+                        with open(os.path.join(media_root, file), 'r') as f:
+                            reader = csv.reader(f)
+                            next(reader)  # Skip header row
+                            if search_query.lower() in file.lower():  # Case-insensitive search
+                                csv_files.append(file)
+                    except csv.Error:
+                        print(f"Invalid CSV file: {file}")
+                    except Exception as e:  # Catch other potential errors
+                        print(f"Error processing file {file}: {e}")
+            else:
+                print("Attendance folder not found")
+    except FileNotFoundError:
+        print("Attendance folder not found")
+
+    # Generate download URLs (assuming you have a download view)
+    file_urls = [reverse('attendance_download_csv', kwargs={'file_name': file, 'dir_name': 'individual_attendance'}) for file in csv_files]
+    delete_urls = [reverse('attendance_delete_csv', kwargs={'file_name': file, 'dir_name': 'individual_attendance'}) for file in csv_files]
+    zipped_files = list(zip(csv_files, file_urls, delete_urls))
+    context = {'zipped_files': zipped_files}
+    return render(request, 'attendance/ind_attendance_list.html', context)
+
+
+def download_csv(request, file_name, dir_name):
     # Update to include 'attendance' subdirectory
-    media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
+    media_root = os.path.join(settings.MEDIA_ROOT, dir_name)
     file_path = os.path.join(media_root, file_name)
     print(media_root)
     print(file_path)
@@ -202,9 +244,9 @@ def download_csv(request, file_name):
         return HttpResponse('Permission denied', status=403)
 
 
-def delete_csv(request, file_name):
+def delete_csv(request, file_name, dir_name):
     # Update to include 'attendance' subdirectory
-    media_root = os.path.join(settings.MEDIA_ROOT, 'attendance')
+    media_root = os.path.join(settings.MEDIA_ROOT, dir_name)
     file_path = os.path.join(media_root, file_name)
     try:
         os.remove(file_path)
