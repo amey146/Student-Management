@@ -5,25 +5,22 @@
 {% block body %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-header text-center bg-primary text-white">
+        <div class="col-md-8"> <!-- Reduced column size -->
+            <div class="card border-primary"> <!-- Outer box border color -->
+                <div class="card-header text-center" style="background-color: #0b2e59; color: white;">
                     <i class="fas fa-user-plus"></i> Add New Student
                 </div>
                 <div class="card-body">
                     <form id="studentForm" action="{% url 'student_add' %}" method="POST" onsubmit="return validateForm()">
                         {% csrf_token %}
-                        <div class="form-row mb-3">
-                            <div class="col-md-6">
-                                <label for="roll"><i class="fas fa-id-badge"></i> Roll</label>
-                                <input name="st_id" type="text" class="form-control" id="roll" placeholder="Auto Roll Id" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="dob"><i class="fas fa-calendar-alt"></i> Date Of Birth</label>
-                                <input name="dob" type="date" id="dob" class="form-control" required oninput="validateDOB(this)">
-                                <small id="dobError" class="text-danger d-none">Age must be greater than 10 years.</small>
-                            </div>
+                        
+                        <!-- Roll No Field -->
+                        <div class="form-group mb-3">
+                            <label for="roll"><i class="fas fa-id-badge"></i> Roll</label>
+                            <input name="st_id" type="text" class="form-control" id="roll" placeholder="Auto Roll Id" disabled>
                         </div>
+
+                        <!-- First Name and Last Name Fields -->
                         <div class="form-row mb-3">
                             <div class="col-md-6">
                                 <label for="fname"><i class="fas fa-user"></i> First Name</label>
@@ -36,19 +33,30 @@
                                 <small id="lnameError" class="text-danger d-none">Invalid last name</small>
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
-                            <div class="border border-primary rounded p-2">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="male" name="gender" value="M" class="form-check-input" required>
-                                    <label for="male" class="form-check-label">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" id="female" name="gender" value="F" class="form-check-input" required>
-                                    <label for="female" class="form-check-label">Female</label>
+
+                        <!-- Date of Birth and Gender Fields -->
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <label for="dob"><i class="fas fa-calendar-alt"></i> Date Of Birth</label>
+                                <input name="dob" type="date" id="dob" class="form-control" required oninput="validateDOB(this)">
+                                <small id="dobError" class="text-danger d-none">Age must be greater than 10 years.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
+                                <div class="border border-primary rounded p-2"> <!-- Inner box border color -->
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="male" name="gender" value="M" class="form-check-input" required>
+                                        <label for="male" class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="radio" id="female" name="gender" value="F" class="form-check-input" required>
+                                        <label for="female" class="form-check-label">Female</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Other Fields -->
                         <div class="form-row mb-3">
                             <div class="col-md-6">
                                 <label for="email"><i class="fas fa-envelope"></i> Student Email</label>
@@ -61,6 +69,7 @@
                                 <small id="pemailError" class="text-danger d-none">Invalid email address</small>
                             </div>
                         </div>
+
                         <div class="form-row mb-3">
                             <div class="col-md-6">
                                 <label for="phone"><i class="fas fa-phone"></i> Student Phone</label>
@@ -73,11 +82,13 @@
                                 <small id="prPhoneError" class="text-danger d-none">Invalid phone number</small>
                             </div>
                         </div>
+
                         <div class="form-group mb-3">
                             <label for="address"><i class="fas fa-home"></i> Address</label>
                             <textarea name="address" id="address" rows="3" class="form-control" placeholder="Enter Address" required oninput="validateText(this)"></textarea>
                             <small id="addressError" class="text-danger d-none">Invalid address</small>
                         </div>
+
                         <div class="form-group mb-4">
                             <label for="courses"><i class="fas fa-book"></i> Courses</label>
                             <select name="courses" id="courses" class="form-control" required>
@@ -86,6 +97,7 @@
                                 {% endfor %}
                             </select>
                         </div>
+
                         <div class="form-group mb-3">
                             <label for="batch_month"><i class="fas fa-calendar-alt"></i> Batch Month</label>
                             <select name="batch_month" id="batch_month" class="form-control border-primary" required>
@@ -104,13 +116,15 @@
                                 <option value="December">December</option>
                             </select>
                         </div>
+
                         <div class="form-group mb-3">
                             <label for="batch_year"><i class="fas fa-calendar"></i> Batch Year</label>
                             <input type="number" name="batch_year" id="batch_year" class="form-control border-primary" placeholder="Enter Year" required min="1950" max="2100" oninput="validateBatchYear(this)">
                             <small id="batchYearError" class="text-danger d-none">Invalid year</small>
                         </div>
+
                         <div class="text-center">
-                            <button type="submit" class="btn btn-block"><i class="fas fa-user-plus"></i> Add Student</button>
+                            <button type="submit" class="btn btn-block btn-custom"><i class="fas fa-user-plus"></i> Add Student</button>
                         </div>
                     </form>
                 </div>
@@ -119,11 +133,62 @@
     </div>
 </div>
 
+<!-- Button Style -->
+<style>
+.btn-custom {
+    background-color: #0b2e59; /* Button color */
+    border-color: #0b2e59; /* Button border color */
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+    background-color: #08223f;
+    border-color: #08223f;
+    outline: none;
+}
+
+.btn-custom:active {
+    background-color: #061a2d;
+    border-color: #061a2d;
+}
+
+/* Style for outer box border color */
+.card {
+    border: 2px solid #0b2e59; /* Outer border color */
+}
+
+/* Style for inner box border color */
+.border-primary {
+    border: 2px solid #0b2e59 !important; /* Inner border color */
+}
+</style>
+
+<!-- JavaScript Validation -->
 <script>
+    function validateText(input) {
+        const textPattern = /^[A-Za-z ]+$/; // Only letters and spaces
+        const error = document.getElementById(input.id + "Error");
+    
+        if (textPattern.test(input.value)) {
+            input.classList.add("is-valid");
+            input.classList.remove("is-invalid");
+            error.classList.add("d-none");
+        } else {
+            input.classList.add("is-invalid");
+            input.classList.remove("is-valid");
+            error.classList.remove("d-none");
+        }
+    }
+    
     function validateEmail(input) {
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         const error = document.getElementById(input.id + "Error");
-
+    
         if (emailPattern.test(input.value)) {
             input.classList.add("is-valid");
             input.classList.remove("is-invalid");
@@ -134,9 +199,40 @@
             error.classList.remove("d-none");
         }
     }
-
+    
+    function validateDOB(input) {
+        const dob = new Date(input.value);
+        const age = new Date().getFullYear() - dob.getFullYear();
+        const error = document.getElementById("dobError");
+    
+        if (age > 10) {
+            input.classList.add("is-valid");
+            input.classList.remove("is-invalid");
+            error.classList.add("d-none");
+        } else {
+            input.classList.add("is-invalid");
+            input.classList.remove("is-valid");
+            error.classList.remove("d-none");
+        }
+    }
+    
+    function validateBatchYear(input) {
+        const currentYear = new Date().getFullYear();
+        const error = document.getElementById("batchYearError");
+    
+        if (input.value >= 1950 && input.value <= currentYear + 1) {
+            input.classList.add("is-valid");
+            input.classList.remove("is-invalid");
+            error.classList.add("d-none");
+        } else {
+            input.classList.add("is-invalid");
+            input.classList.remove("is-valid");
+            error.classList.remove("d-none");
+        }
+    }
+    
     function validatePhone(input) {
-        const phonePattern = /^(?!.*([0-9])\1{4})[0-9]{10}$/; // Prevent five consecutive identical digits
+        const phonePattern = /^(?!0)\d{10}$/; // Phone number must not start with 0 and should be 10 digits
         const error = document.getElementById(input.id + "Error");
     
         if (phonePattern.test(input.value)) {
@@ -150,71 +246,18 @@
         }
     }
     
-      
-    
-    function validateText(input) {
-        // Only allow letters in the input
-        const textPattern = /^[a-zA-Z\s]+$/; // Allows letters and spaces only
-        const error = document.getElementById(input.id + "Error");
-
-        if (textPattern.test(input.value.trim())) {
-            input.classList.add("is-valid");
-            input.classList.remove("is-invalid");
-            error.classList.add("d-none");
-        } else {
-            input.classList.add("is-invalid");
-            input.classList.remove("is-valid");
-            error.classList.remove("d-none");
-        }
-    }
-
-    function validateDOB(input) {
-        const dob = new Date(input.value);
-        const today = new Date();
-        const age = today.getFullYear() - dob.getFullYear();
-        const error = document.getElementById("dobError");
-
-        if (age > 10) {
-            input.classList.add("is-valid");
-            input.classList.remove("is-invalid");
-            error.classList.add("d-none");
-        } else {
-            input.classList.add("is-invalid");
-            input.classList.remove("is-valid");
-            error.classList.remove("d-none");
-        }
-    }
-
-    function validateBatchYear(input) {
-        const error = document.getElementById("batchYearError");
-        const year = parseInt(input.value);
-        const currentYear = new Date().getFullYear();
-
-        if (year >= 1950 && year <= 2100) {
-            input.classList.add("is-valid");
-            input.classList.remove("is-invalid");
-            error.classList.add("d-none");
-        } else {
-            input.classList.add("is-invalid");
-            input.classList.remove("is-valid");
-            error.classList.remove("d-none");
-        }
-    }
-
     function validateForm() {
-        // Final form submission validation
-        const inputs = document.querySelectorAll("input[required], select[required], textarea[required]");
+        const formElements = document.querySelectorAll('#studentForm input, #studentForm select, #studentForm textarea');
         let valid = true;
-
-        inputs.forEach(input => {
-            if (!input.checkValidity()) {
+    
+        formElements.forEach(element => {
+            if (!element.checkValidity()) {
                 valid = false;
-                input.classList.add("is-invalid");
             }
         });
-
-        return valid; // Allow form submission if all validations pass
+    
+        return valid;
     }
-</script>
+    </script>
 
 {% endblock body %}
