@@ -13,7 +13,7 @@ Student Update
                     <h4 class="text-center mb-0">Update Student Information</h4>
                 </div>
                 <div class="card-body bg-light">
-                    <form action="/studentmgt/student_do_update/{{ std.st_id }}" method="POST">
+                    <form action="/studentmgt/student_do_update/{{ std.st_id }}" method="POST" onsubmit="return validateForm()">
                         {% csrf_token %}
                         <div class="form-group mb-3">
                             <label for="roll"><strong>Roll Number: {{ std.st_id }}</strong></label>
@@ -32,7 +32,7 @@ Student Update
                         <div class="form-row mb-3">
                             <div class="col-md-6">
                                 <label for="dob"><i class="fas fa-calendar-alt"></i> Date Of Birth</label>
-                                <input type="date" id="dob" name="dob" class="form-control border-primary" value="{{ std.dob|date:'Y-m-d' }}">
+                                <input type="date" id="dob" name="dob" class="form-control border-primary" value="{{ std.dob|date:'Y-m-d' }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="gender"><i class="fas fa-venus-mars"></i> Gender</label>
@@ -139,20 +139,64 @@ Student Update
 
     .btn:hover {
         background-color: #0b2e59; /* Darker shade on hover */
-        border-color: #0b2e59; /* Border color on hover */
-    }
-
-    /* Increased padding and spacing */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-row .col-md-6 {
-        margin-bottom: 1rem;
-    }
-
-    .card-header {
-        font-size: 1.5rem; /* Adjusted header size */
+        border-color: #0b2e59; /* Darker border on hover */
     }
 </style>
+
+<script>
+    function validateDOB() {
+        const dob = new Date(document.getElementById('dob').value);
+        const today = new Date();
+        const age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        const isValidAge = (age > 6 && age < 100); // Valid age range for Class 6-12, undergraduates, etc.
+        if (!isValidAge) {
+            alert('You must be between 6 and 100 years old.');
+        }
+        return isValidAge;
+    }
+
+    function validateName(name) {
+        // Check if the name contains only alphabets and spaces
+        return /^[A-Za-z\s]+$/.test(name);
+    }
+
+    function validatePhone(phone) {
+        // Check if the phone number has five consecutive repeated digits
+        return !/(.)\1{4}/.test(phone);
+    }
+
+    function validateForm() {
+        const firstName = document.getElementById('fname').value;
+        const lastName = document.getElementById('lname').value;
+        const phone = document.getElementById('phone').value;
+        const pr_phone = document.getElementById('pr_phone').value;
+
+        if (!validateDOB()) {
+            return false;
+        }
+
+        if (!validateName(firstName)) {
+            alert('First name must contain only alphabets.');
+            return false;
+        }
+
+        if (!validateName(lastName)) {
+            alert('Last name must contain only alphabets.');
+            return false;
+        }
+
+        if (!validatePhone(phone)) {
+            alert('Phone number must not contain five consecutive identical digits.');
+            return false;
+        }
+
+        if (!validatePhone(pr_phone)) {
+            alert('Parent phone number must not contain five consecutive identical digits.');
+            return false;
+        }
+
+        return true; // All validations passed
+    }
+</script>
 {% endblock body %}
