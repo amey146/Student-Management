@@ -71,6 +71,7 @@ def student_do_update(request, st_id):
         st_email = request.POST.get("st_email")
         pr_email = request.POST.get("pr_email")
         phone = request.POST.get("phone")
+        pr_phone = request.POST.get("pr_phone")
         address = request.POST.get("address")
         course_ids = request.POST.getlist("courses")
         batch_month = request.POST.get("batch_month")
@@ -84,6 +85,7 @@ def student_do_update(request, st_id):
         std.st_email = st_email
         std.pr_email = pr_email
         std.phone = phone
+        std.pr_phone = pr_phone
         std.address = address
         std.batch_mon = batch_month
         std.batch_year = batch_year
