@@ -7,9 +7,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8"> <!-- Reduced column size -->
             <div class="card border-primary"> <!-- Outer box border color -->
-                <div class="card-header text-center" style="background-color: #0b2e59; color: white;">
-                    <i class="fas fa-user-plus"></i> Add New Student
+                <div class="card-header text-center" style="background-color: #0b2e59; color: white; font-size: 1.5rem;">
+                    <i class="fas fa-user-plus"></i> <strong>Add New Student</strong>
                 </div>
+                
+                
                 <div class="card-body">
                     <form id="studentForm" action="{% url 'student_add' %}" method="POST" onsubmit="return validateForm()">
                         {% csrf_token %}
@@ -136,8 +138,8 @@
 <!-- Button Style -->
 <style>
 .btn-custom {
-    background-color: #0b2e59; /* Button color */
-    border-color: #0b2e59; /* Button border color */
+    background-color: #0b2e59;
+    border-color: #0b2e59;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -159,12 +161,12 @@
 
 /* Style for outer box border color */
 .card {
-    border: 2px solid #0b2e59; /* Outer border color */
+    border: 2px solid #0b2e59;
 }
 
 /* Style for inner box border color */
 .border-primary {
-    border: 2px solid #0b2e59 !important; /* Inner border color */
+    border: 2px solid #0b2e59 !important;
 }
 </style>
 
