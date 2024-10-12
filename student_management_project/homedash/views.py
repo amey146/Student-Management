@@ -80,25 +80,25 @@ def visualize_attendance(request):
             csv_file_path = os.path.join(attendance_directory, selected_file)
             df = pd.read_csv(csv_file_path)
 
-            # Count the number of present and absent students
-            attendance_summary = df['Status'].value_counts()
-
             # Separate student IDs based on status
             present_students = df[df['Status'] == 'P']['Student ID'].tolist()
             absent_students = df[df['Status'] == 'A']['Student ID'].tolist()
             the_class = df['Date'][0]
 
+            # Manually create attendance summary to ensure both Present and Absent are included
+            attendance_summary = {
+                'Present': len(present_students),
+                'Absent': len(absent_students)
+            }
+
             # Create a bar chart for the attendance summary
             fig, ax = plt.subplots()
-            attendance_summary.plot(kind='bar', ax=ax, color=['green', 'red'])
+            ax.bar(attendance_summary.keys(), attendance_summary.values(), color=['green', 'red'])
 
             # Set chart title and labels
             ax.set_title('Attendance Summary')
             ax.set_xlabel('Attendance Status')
             ax.set_ylabel('Number of Students')
-
-            # Adjust the x-axis labels for better visibility
-            ax.set_xticklabels(['Present', 'Absent'], rotation=0)
 
             # Adjust layout to prevent clipping
             plt.tight_layout()
@@ -118,7 +118,7 @@ def visualize_attendance(request):
                 'csv_files': csv_files,  # Pass the list of CSV files for the dropdown
                 'present_students': present_students,
                 'absent_students': absent_students,
-                'the_class' : the_class
+                'the_class': the_class
             })
-    
+
     return render(request, 'homedash/upload_att.html', {'csv_files': csv_files})
