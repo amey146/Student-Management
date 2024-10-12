@@ -15,6 +15,16 @@ Home
 {% endblock title %}
 
 {% block body %}
-    <h1>Student Scores Chart</h1>
-    <img src="data:image/png;base64,{{ chart }}" alt="Student Scores">
+    <h1>Attendance Summary For: {{the_class}}</h1>
+    
+    <!-- Display the chart -->
+    <img src="data:image/png;base64,{{ chart }}" alt="Attendance Chart" />
+
+    <!-- Display the lists of student IDs who were present and absent -->
+    <h2>Students Present Roll ID</h2>
+    <p>{{ present_students|join:", " }}</p> <!-- Showing present student IDs -->
+
+    <h2>Students Absent Roll ID</h2>
+    <p>{{ absent_students|join:", " }}</p> <!-- Showing absent student IDs -->
+
 {% endblock body %}

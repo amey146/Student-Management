@@ -19,12 +19,13 @@ Home
     <form method="post">
         {% csrf_token %}
         <label for="csv_file">Choose a CSV file:</label>
-        <select name="csv_file" id="csv_file">
+        <select name="csv_file" id="csv_file" class="form-control border-primary">
             {% for file in csv_files %}
                 <option value="{{ file }}">{{ file }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Generate Chart</button>
+        <br>
+        <button class="btn btn-primary btn-block" type="submit">Generate Chart</button>
     </form>
 
     {% if chart %}
@@ -32,4 +33,4 @@ Home
         <img src="data:image/png;base64,{{ chart }}" alt="Student Scores Chart">
     {% endif %}
 
-    {% endblock body %}
+{% endblock body %}

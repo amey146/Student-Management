@@ -15,6 +15,21 @@ Home
 {% endblock title %}
 
 {% block body %}
-    <h1>Student Scores Chart</h1>
-    <img src="data:image/png;base64,{{ chart }}" alt="Student Scores">
+    <h1>Select a CSV to Visualize Attendance</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="csv_file">Choose a CSV file:</label>
+        <select name="csv_file" id="csv_file" class="form-control border-primary">
+            {% for file in csv_files %}
+                <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button class="btn btn-primary btn-block" type="submit">Generate Chart</button>
+    </form>
+
+    {% if chart %}
+        <h2>Attendance Status Chart</h2>
+        <img src="data:image/png;base64,{{ chart }}" alt="Attendance Chart">
+    {% endif %}
 {% endblock body %}
