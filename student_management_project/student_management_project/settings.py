@@ -18,10 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Media Access (For CSV)
 # MEDIA_ROOT specifies the directory where files will be stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 'media' is the folder name
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 'media' is the folder name
 
-# MEDIA_URL is the base public URL of media files
-MEDIA_URL = '/media/'
+# # MEDIA_URL is the base public URL of media files
+# MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -30,7 +30,7 @@ MEDIA_URL = '/media/'
 SECRET_KEY = 'django-insecure-*^h+ln6x=&e15@td4k-5305od(sc*3w(%7@gpe7odanl^7wrg#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'lucasmorgan1464@gmail.com' #DO NOT CHANGE
 EMAIL_HOST_PASSWORD = 'zqzazltdzmqptoov' #DO NOT CHANGE
@@ -38,7 +38,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,11 +86,15 @@ TEMPLATES = [
 ]
 
 # For static files
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 WSGI_APPLICATION = 'student_management_project.wsgi.application'
 
@@ -123,7 +127,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
