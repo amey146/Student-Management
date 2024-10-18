@@ -14,9 +14,6 @@ from django.urls import reverse
 def attendance_home(request):
     return render(request, "attendance/attendance_home.html")
 
-
-
-
 def attendance_add(request):
     courses = Course.objects.all()
     selected_course = request.GET.get('course')
@@ -24,17 +21,17 @@ def attendance_add(request):
     selected_month = request.GET.get('month')
     selected_year = request.GET.get('year')
 
-    # Set a default course if no course is selected
+    # to set a default course if no course is selected
     if not selected_course and courses.exists():
         selected_course = courses.first().c_id
 
-    # Fetch distinct batch months and years for the selected course
+    # get distinct batch months and years for the selected course
     if selected_course:
         batches = Student.objects.filter(courses__c_id=selected_course).values('batch_mon', 'batch_year').distinct()
     else:
         batches = Student.objects.values('batch_mon', 'batch_year').distinct()
 
-    # Filter students based on selected course, month, and year
+    # filter students based on selected course, month, and year
     students_query = Student.objects.filter(courses__c_id=selected_course)
 
     if selected_batch:
