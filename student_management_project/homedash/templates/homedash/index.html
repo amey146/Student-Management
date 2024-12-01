@@ -21,6 +21,17 @@ background: linear-gradient(0deg, rgba(220,240,255,1) 0%);">
     <div class="container">
         <!-- Main Content -->
         <div class="row justify-content-center w-100 mt-4">
+            <!-- Card 4 -->
+            <div class="col-md-3 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-lg border-0 rounded w-100 h-100">
+                    <img class="card-img-top" src="/static/images/students.jpg" alt="Student Management Image">
+                    <div class="card-body text-center d-flex flex-column justify-content-between">
+                        <h5 class="card-title">Student Management</h5>
+                        <p class="card-text">Manage student records.</p>
+                        <a href="{% url 'student_home' %}" class="btn btn-primary btn-block">Go to Student Management</a>
+                    </div>
+                </div>
+            </div>
             <!-- Card 1 -->
             <div class="col-md-3 mb-4 d-flex align-items-stretch">
                 <div class="card shadow-lg border-0 rounded w-100 h-100">
@@ -45,6 +56,8 @@ background: linear-gradient(0deg, rgba(220,240,255,1) 0%);">
                 </div>
             </div>
 
+            
+
             <!-- Card 3 -->
             <div class="col-md-3 mb-4 d-flex align-items-stretch">
                 <div class="card shadow-lg border-0 rounded w-100 h-100">
@@ -53,18 +66,6 @@ background: linear-gradient(0deg, rgba(220,240,255,1) 0%);">
                         <h5 class="card-title">Quiz Management</h5>
                         <p class="card-text">Create and manage quizzes.</p>
                         <a href="{% url 'quiz_home' %}" class="btn btn-primary btn-block">Go to Quiz Management</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="col-md-3 mb-4 d-flex align-items-stretch">
-                <div class="card shadow-lg border-0 rounded w-100 h-100">
-                    <img class="card-img-top" src="/static/images/students.jpg" alt="Student Management Image">
-                    <div class="card-body text-center d-flex flex-column justify-content-between">
-                        <h5 class="card-title">Student Management</h5>
-                        <p class="card-text">Manage student records.</p>
-                        <a href="{% url 'student_home' %}" class="btn btn-primary btn-block">Go to Student Management</a>
                     </div>
                 </div>
             </div>

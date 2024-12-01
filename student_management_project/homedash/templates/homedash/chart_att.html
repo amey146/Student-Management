@@ -21,10 +21,31 @@ Home
     <img src="data:image/png;base64,{{ chart }}" alt="Attendance Chart" />
 
     <!-- Display the lists of student IDs who were present and absent -->
-    <h2>Students Present Roll ID</h2>
-    <p>{{ present_students|join:", " }}</p> <!-- Showing present student IDs -->
-
-    <h2>Students Absent Roll ID</h2>
-    <p>{{ absent_students|join:", " }}</p> <!-- Showing absent student IDs -->
-
+    <h2>Attendance Details</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Present Students</th>
+                <th>Absent Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {% if present_students %}
+                        {{ present_students|join:", " }}
+                    {% else %}
+                        No students were present.
+                    {% endif %}
+                </td>
+                <td>
+                    {% if absent_students %}
+                        {{ absent_students|join:", " }}
+                    {% else %}
+                        No students were absent.
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock body %}

@@ -110,8 +110,9 @@ Quiz Home
         <div class="col-md-6 mb-3">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Send Report Mails</h5>
-                    <a href="{% url 'report_generation' %}" class="btn btn-custom btn-lg">
+                    <h5 class="card-title" id="report-title">Send Report Mails</h5>
+                    <p id="report-message"></p> <!-- Placeholder for dynamic messages -->
+                    <a href="{% url 'report_generation' %}" id="generate-reports-btn" class="btn btn-custom btn-lg">
                         <i class="fas fa-check"></i> Generate Reports
                     </a>
                 </div>
@@ -119,4 +120,37 @@ Quiz Home
         </div>        
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Get the current date
+        const today = new Date();
+        const isFirstDay = today.getDate() === 1;
+
+        // Get elements
+        const reportTitle = document.getElementById('report-title');
+        const reportMessage = document.getElementById('report-message');
+        const generateReportsBtn = document.getElementById('generate-reports-btn');
+
+        if (isFirstDay) {
+            // Show a success message for the 1st day of the month
+            reportMessage.textContent = 'Report generation is available today.';
+            reportMessage.style.color = 'darkorange';
+        } else {
+            // Change the title to display a warning
+            reportTitle.textContent = 'Report generation is not available today.';
+            reportTitle.style.color = 'red';
+
+            // Show a message explaining the restriction
+            reportMessage.textContent = ' Reports can only be sent on the 1st day of the month.';
+            reportMessage.style.color = 'gray';
+
+            // Disable the button and add a tooltip
+            generateReportsBtn.classList.add('disabled');
+            generateReportsBtn.setAttribute('title', 'This feature is only available on the 1st day of the month.');
+            generateReportsBtn.removeAttribute('href'); // Prevent navigation
+        }
+    });
+</script>
 {% endblock body %}
+

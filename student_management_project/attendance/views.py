@@ -81,7 +81,7 @@ def attendance_add_action(request):
         return render(request, 'attendance/emailsent.html')
 
     students = Student.objects.all()
-    return render(request, 'attendance.html', {'students': students})
+    return render(request, 'attendance_home.html', {'students': students})
 
 
 

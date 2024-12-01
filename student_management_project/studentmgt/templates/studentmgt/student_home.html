@@ -189,31 +189,31 @@ Student Home
 
         <!-- Pagination -->
         <nav>
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
+            <ul class="pagination justify-content-center" id="pagination"></ul>
         </nav>
     </div>
 </div>
 
 <script>
-    // Search functionality
-    document.getElementById('studentSearch').addEventListener('input', function () {
-        let filter = this.value.toLowerCase();
-        let rows = document.querySelectorAll('#studentTable tbody tr');
-        
-        rows.forEach(row => {
-            let text = row.innerText.toLowerCase();
-            row.style.display = text.includes(filter) ? '' : 'none';
+    
+        // Search functionality
+        document.getElementById('studentSearch').addEventListener('input', function () {
+            const filter = this.value.toLowerCase();
+
+            rows.forEach((row) => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+
+            // Reset pagination
+            currentPage = 1;
+            displayRows();
+            setupPagination();
         });
+
+        // Initial setup
+        displayRows();
+        setupPagination();
     });
 
     // Delete confirmation
